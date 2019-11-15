@@ -45,4 +45,5 @@ def Treatment_plan(i,doc_ssn1,doc_snn_2,pat_snn1,pat_snn_2):
     pat_snn=sample(pat_snn1,pat_snn_2)
 
 
+
 inventory(5)
