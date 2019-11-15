@@ -1,5 +1,4 @@
 from  random import random, choice, randint, sample
-from  KEK import *
 import radar
 
 def yapicae():
@@ -13,7 +12,7 @@ def yapicae():
 
 
 def logs(i):
-    lgs = list(open('logs'))
+    lgs = list(open('logs.txt'))
     print("INSERT INTO Log VALUES")
     for i in range(i - 1):
         shit, time, type, name = choice(lgs).split(sep=" ", maxsplit=3)
@@ -24,7 +23,7 @@ def logs(i):
 
 def inventory(i):
     types = ["medication", "food"]
-    drugs=list(open('medic'))
+    drugs=list(open('medic.txt'))
 
     print("INSERT INTO Log VALUES")
     ans=""
