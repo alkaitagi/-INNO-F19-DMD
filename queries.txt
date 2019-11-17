@@ -59,28 +59,44 @@ date DATE NOT NULL,
 PRIMARY KEY(id, patient_ssn)
 );
 
-/*
-CREATE TABLE Appointment_protocol(
-id INTEGER NOT NULL,
-doctor_ssn INTEGER NOT NULL, /* to do */
-patient_ssn INTEGER NOT NULL,
-type VARCHAR(15) NOT NULL,
-result VARCHAR(2000) NOT NULL,
-date DATE NOT NULL,
-PRIMARY KEY(id, doctor_ssn, patient_ssn)
-);
-*/
-
-
 CREATE TABLE Treatment_plan(
 id INTEGER NOT NULL,
 doctor_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
 patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
 discharge_date DATE,
 hospitalization_date DATE,
-diagnoses VARCHAR (50) NOT NULL,
-procedures VARCHAR (500) NOT NULL,
+/*diagnoses VARCHAR (50) NOT NULL,*/
+/*procedures VARCHAR (500) NOT NULL,*/
 PRIMARY KEY (id, doctor_ssn, patient_ssn)
+);
+
+CREATE TABLE Treatment_diagnoses(
+id INTEGER NOT NULL,
+doctor_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
+patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
+diagnoses_id INTEGER NOT NULL,
+PRIMARY KEY (id, doctor_ssn, patient_ssn,diagnoses_id)
+);
+
+CREATE TABLE Diagnoses(
+id INTEGER NOT NULL,
+description VARCHAR (50) NOT NULL,
+PRIMARY KEY (id)
+);
+
+
+CREATE TABLE Treatment_procedures(
+id INTEGER NOT NULL,
+doctor_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
+patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
+procedures_id INTEGER NOT NULL,
+PRIMARY KEY (id, doctor_ssn, patient_ssn,procedures_id)
+);
+
+CREATE TABLE Procedures(
+id INTEGER NOT NULL,
+description VARCHAR (50) NOT NULL,
+PRIMARY KEY (id)
 );
 
 /*_________________________________________*/
