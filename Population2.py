@@ -67,12 +67,17 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
     c = 0
     ans = ""
     thing = {}
+    opthing={}
     for i, pro in enumerate(treats):
         a = []
         for e2 in pro.split(";")[1:]:
-            ans += "({}, '{}'),".format(c, e2)
-            a.append(c)
-            c += 1
+            if (not (e2 in opthing )):
+                ans += "({}, '{}'),".format(c, e2)
+                a.append(c)
+                opthing[e2]=c
+                c += 1
+            else:
+                a.append(opthing[e2])
         thing[i] = a
 
     print("INSERT INTO Procedures VALUES " + ans[:-1] + ";\n")
@@ -96,7 +101,9 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
             ans3 += "({}, {}, {}, {}),".format(ids[i], doc_snn[i], pat_snn[i], choice(thing[e]))
 
     print("INSERT INTO Treatment_plan VALUES" + ans1[:-1] + ";")
-    print("INSERT INTO Diagnoses VALUES" + ans2[:-1] + ";")
-    print("INSERT INTO Procedures VALUES" + ans3[:-1] + ";")
+    print("INSERT INTO Treatment_diagnoses  VALUES" + ans2[:-1] + ";")
+    print("INSERT INTO Treatment_procedures VALUES" + ans3[:-1] + ";")
+
+
 
 Treatment_plan(5, 1, 100, 101, 200)
