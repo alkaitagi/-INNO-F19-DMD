@@ -41,6 +41,7 @@ def inventory(i):
 
 
 def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
+    ans=""
     ids = list(range(1, n + 1))
     shuffle(ids)
     doc_snn = []
@@ -59,20 +60,20 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
     while treats.count(""):
         treats.remove("")
 
-    ans = ""
+    string = ""
     for i, pro in enumerate(treats):
-        ans += "({}, '{}'),".format(i, pro.split(";")[0])
-    print("INSERT INTO Diagnoses VALUES " + ans[:-1] + ";\n")
+        string += "({}, '{}'),".format(i, pro.split(";")[0])
+    ans+="INSERT INTO Diagnoses VALUES " + string[:-1] + ";\n\n"
 
     c = 0
-    ans = ""
+    string = ""
     thing = {}
     opthing={}
     for i, pro in enumerate(treats):
         a = []
         for e2 in pro.split(";")[1:]:
             if (not (e2 in opthing )):
-                ans += "({}, '{}'),".format(c, e2)
+                string += "({}, '{}'),".format(c, e2)
                 a.append(c)
                 opthing[e2]=c
                 c += 1
@@ -80,11 +81,11 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
                 a.append(opthing[e2])
         thing[i] = a
 
-    print("INSERT INTO Procedures VALUES " + ans[:-1] + ";\n")
+    ans+="INSERT INTO Procedures VALUES " + string[:-1] + ";\n\n"
 
-    ans1 = ""
-    ans2 = ""
-    ans3 = ""
+    string1 = ""
+    string2 = ""
+    string3 = ""
     for i in range(n):
         hos_date = radar.random_date(start=datetime.date(year=2015,
                                                          month=1,
@@ -94,16 +95,16 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
                                                         day=1))
         timestamp = datetime.datetime.combine(hos_date, datetime.time(0, 0)).timestamp()
         dis_date = datetime.date.fromtimestamp(timestamp + two_weeks)
-        ans1 += "({}, {}, {}, '{}', '{}'),".format(ids[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
+        string1 += "({}, {}, {}, '{}', '{}'),".format(ids[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
         illness = sample(range(len(treats)), 3)
         for e in illness:
-            ans2 += "({}, {}, {}, {}),".format(ids[i], doc_snn[i], pat_snn[i], e)
-            ans3 += "({}, {}, {}, {}),".format(ids[i], doc_snn[i], pat_snn[i], choice(thing[e]))
+            string2 += "({}, {}, {}, {}),".format(ids[i], doc_snn[i], pat_snn[i], e)
+            string3 += "({}, {}, {}, {}),".format(ids[i], doc_snn[i], pat_snn[i], choice(thing[e]))
 
-    print("INSERT INTO Treatment_plan VALUES" + ans1[:-1] + ";")
-    print("INSERT INTO Treatment_diagnoses  VALUES" + ans2[:-1] + ";")
-    print("INSERT INTO Treatment_procedures VALUES" + ans3[:-1] + ";")
+    ans+="INSERT INTO Treatment_plan VALUES" + string1[:-1] + ";\n\n"
+    ans+="INSERT INTO Treatment_diagnoses  VALUES" + string2[:-1] + ";\n\n"
+    ans+="INSERT INTO Treatment_procedures VALUES" + string3[:-1] + ";\n\n"
+    return ans
 
 
-
-Treatment_plan(5, 1, 100, 101, 200)
+print(Treatment_plan(5, 1, 100, 101, 200))
