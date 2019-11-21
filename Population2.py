@@ -95,15 +95,15 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
                                                         day=1))
         timestamp = datetime.datetime.combine(hos_date, datetime.time(0, 0)).timestamp()
         dis_date = datetime.date.fromtimestamp(timestamp + two_weeks)
-        string1 += "({}, {}, {}, '{}', '{}'),".format(ids[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
+        string1 += "({}, {}, {}, '{}', '{}'),\n".format(ids[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
         illness = sample(range(len(treats)), 3)
         for e in illness:
-            string2 += "({}, {}),".format(ids[i], e)
-            string3 += "({}, {}),".format(ids[i], choice(thing[e]))
+            string2 += "({}, {}),\n".format(ids[i], e)
+            string3 += "({}, {}),\n".format(ids[i], choice(thing[e]))
 
-    ans += "INSERT INTO Treatment_plan VALUES" + string1[:-1] + ";\n\n"
-    ans += "INSERT INTO Treatment_diagnoses  VALUES" + string2[:-1] + ";\n\n"
-    ans += "INSERT INTO Treatment_procedures VALUES" + string3[:-1] + ";\n\n"
+    ans += "INSERT INTO Treatment_plan VALUES" + string1[:-2] + ";\n\n"
+    ans += "INSERT INTO Treatment_diagnoses  VALUES" + string2[:-2] + ";\n\n"
+    ans += "INSERT INTO Treatment_procedures VALUES" + string3[:-2] + ";\n\n"
     return ans
 
 
