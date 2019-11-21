@@ -62,8 +62,8 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
 
     string = ""
     for i, pro in enumerate(treats):
-        string += "({}, '{}'),".format(i, pro.split(";")[0])
-    ans += "INSERT INTO Diagnoses VALUES " + string[:-1] + ";\n\n"
+        string += "({}, '{}'),\n".format(i, pro.split(";")[0])
+    ans += "INSERT INTO Diagnoses VALUES \n" + string[:-2] + ";\n\n"
 
     c = 0
     string = ""
@@ -73,7 +73,7 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
         a = []
         for e2 in pro.split(";")[1:]:
             if (not (e2 in opthing)):
-                string += "({}, '{}'),".format(c, e2)
+                string += "({}, '{}'),\n".format(c, e2)
                 a.append(c)
                 opthing[e2] = c
                 c += 1
@@ -81,7 +81,7 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
                 a.append(opthing[e2])
         thing[i] = a
 
-    ans += "INSERT INTO Procedures VALUES " + string[:-1] + ";\n\n"
+    ans += "INSERT INTO Procedures VALUES \n" + string[:-2] + ";\n\n"
 
     string1 = ""
     string2 = ""
@@ -101,9 +101,9 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
             string2 += "({}, {}),\n".format(ids[i], e)
             string3 += "({}, {}),\n".format(ids[i], choice(thing[e]))
 
-    ans += "INSERT INTO Treatment_plan VALUES" + string1[:-2] + ";\n\n"
-    ans += "INSERT INTO Treatment_diagnoses  VALUES" + string2[:-2] + ";\n\n"
-    ans += "INSERT INTO Treatment_procedures VALUES" + string3[:-2] + ";\n\n"
+    ans += "INSERT INTO Treatment_plan VALUES\n" + string1[:-2] + ";\n\n"
+    ans += "INSERT INTO Treatment_diagnoses  VALUES\n" + string2[:-2] + ";\n\n"
+    ans += "INSERT INTO Treatment_procedures VALUES\n" + string3[:-2] + ";\n\n"
     return ans
 
 
