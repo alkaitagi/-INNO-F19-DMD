@@ -67,15 +67,13 @@ discharge_date DATE,
 hospitalization_date DATE,
 /*diagnoses VARCHAR (50) NOT NULL,*/
 /*procedures VARCHAR (500) NOT NULL,*/
-PRIMARY KEY (id, doctor_ssn, patient_ssn)
+PRIMARY KEY (id)
 );
 
 CREATE TABLE Treatment_diagnoses(
-id INTEGER NOT NULL,
-doctor_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
-patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
+treatment_id INTEGER NOT NULL,
 diagnoses_id INTEGER NOT NULL,
-PRIMARY KEY (id, doctor_ssn, patient_ssn,diagnoses_id)
+PRIMARY KEY (treatment_id)
 );
 
 CREATE TABLE Diagnoses(
@@ -86,11 +84,9 @@ PRIMARY KEY (id)
 
 
 CREATE TABLE Treatment_procedures(
-id INTEGER NOT NULL,
-doctor_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
-patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
+treatment_id INTEGER NOT NULL,
 procedures_id INTEGER NOT NULL,
-PRIMARY KEY (id, doctor_ssn, patient_ssn,procedures_id)
+PRIMARY KEY (treatment_id)
 );
 
 CREATE TABLE Procedures(

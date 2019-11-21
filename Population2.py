@@ -41,7 +41,7 @@ def inventory(i):
 
 
 def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
-    ans=""
+    ans = ""
     ids = list(range(1, n + 1))
     shuffle(ids)
     doc_snn = []
@@ -63,25 +63,25 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
     string = ""
     for i, pro in enumerate(treats):
         string += "({}, '{}'),".format(i, pro.split(";")[0])
-    ans+="INSERT INTO Diagnoses VALUES " + string[:-1] + ";\n\n"
+    ans += "INSERT INTO Diagnoses VALUES " + string[:-1] + ";\n\n"
 
     c = 0
     string = ""
     thing = {}
-    opthing={}
+    opthing = {}
     for i, pro in enumerate(treats):
         a = []
         for e2 in pro.split(";")[1:]:
-            if (not (e2 in opthing )):
+            if (not (e2 in opthing)):
                 string += "({}, '{}'),".format(c, e2)
                 a.append(c)
-                opthing[e2]=c
+                opthing[e2] = c
                 c += 1
             else:
                 a.append(opthing[e2])
         thing[i] = a
 
-    ans+="INSERT INTO Procedures VALUES " + string[:-1] + ";\n\n"
+    ans += "INSERT INTO Procedures VALUES " + string[:-1] + ";\n\n"
 
     string1 = ""
     string2 = ""
@@ -98,12 +98,12 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
         string1 += "({}, {}, {}, '{}', '{}'),".format(ids[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
         illness = sample(range(len(treats)), 3)
         for e in illness:
-            string2 += "({}, {}, {}, {}),".format(ids[i], doc_snn[i], pat_snn[i], e)
-            string3 += "({}, {}, {}, {}),".format(ids[i], doc_snn[i], pat_snn[i], choice(thing[e]))
+            string2 += "({}, {}),".format(ids[i], e)
+            string3 += "({}, {}),".format(ids[i], choice(thing[e]))
 
-    ans+="INSERT INTO Treatment_plan VALUES" + string1[:-1] + ";\n\n"
-    ans+="INSERT INTO Treatment_diagnoses  VALUES" + string2[:-1] + ";\n\n"
-    ans+="INSERT INTO Treatment_procedures VALUES" + string3[:-1] + ";\n\n"
+    ans += "INSERT INTO Treatment_plan VALUES" + string1[:-1] + ";\n\n"
+    ans += "INSERT INTO Treatment_diagnoses  VALUES" + string2[:-1] + ";\n\n"
+    ans += "INSERT INTO Treatment_procedures VALUES" + string3[:-1] + ";\n\n"
     return ans
 
 
