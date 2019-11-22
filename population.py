@@ -45,7 +45,7 @@ def inventory(i):
     print(''.join(ans))
 
 
-def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
+def treatmentPlan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
     ans = ""
     ids = list(range(1, n + 1))
     shuffle(ids)
@@ -114,4 +114,4 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
     return ans
 
 
-print(Treatment_plan(5, 1, 100, 101, 200))
+print(treatmentPlan(5, 1, 100, 101, 200))
