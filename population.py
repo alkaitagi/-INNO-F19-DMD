@@ -1,10 +1,13 @@
-from  random import random, choice, randint, sample, shuffle
+from random import random, choice, randint, sample, shuffle
 import radar
 import datetime
 
 
 def yapicae():
-    s = ['q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm']
+    s = [
+        'q', 'w', 'r', 't', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z',
+        'x', 'c', 'v', 'b', 'n', 'm'
+    ]
     g = ['e', 'a', 'y', 'u', 'i', 'o', 'a']
     st = ""
     for i in range(5):
@@ -14,7 +17,7 @@ def yapicae():
 
 
 def logs(i):
-    lgs = list(open('logs.txt'))
+    lgs = list(open('samples/logs.txt'))
     print("INSERT INTO Log VALUES")
     for i in range(i - 1):
         shit, time, type, name = choice(lgs).split(sep=" ", maxsplit=3)
@@ -31,10 +34,12 @@ def inventory(i):
     ans = ""
     sup = [yapicae() for i in range(20)]
     for i in range(i - 1):
-        ans += "( {}, '{}', '{}', '{}', '{}', '{}' ),\n".format(i, choice(drugs), randint(1, 100), types[0], yapicae(),
-                                                                randint(1, 30) * 1000)
-        ans += "( {}, '{}', '{}', '{}', '{}', '{}' ),\n".format(i, choice(sup), randint(1, 100), types[1], yapicae(),
-                                                                randint(1, 30) * 1000)
+        ans += "( {}, '{}', '{}', '{}', '{}', '{}' ),\n".format(
+            i, choice(drugs), randint(1, 100), types[0], yapicae(),
+            randint(1, 30) * 1000)
+        ans += "( {}, '{}', '{}', '{}', '{}', '{}' ),\n".format(
+            i, choice(sup), randint(1, 100), types[1], yapicae(),
+            randint(1, 30) * 1000)
     ans = list(ans)
     ans[-2] = ';'
     print(''.join(ans))
@@ -53,7 +58,7 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
         pat_snn.append(randint(pat_snn1, pat_snn_2))
 
     two_weeks = 1209600
-    treats = list(open("Treatments.txt"))
+    treats = list(open("samples/treatments.txt"))
     for i in range(len(treats)):
         treats[i] = treats[i].replace("\n", "")
 
@@ -93,9 +98,11 @@ def Treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
                                      stop=datetime.date(year=2019,
                                                         month=1,
                                                         day=1))
-        timestamp = datetime.datetime.combine(hos_date, datetime.time(0, 0)).timestamp()
+        timestamp = datetime.datetime.combine(hos_date,
+                                              datetime.time(0, 0)).timestamp()
         dis_date = datetime.date.fromtimestamp(timestamp + two_weeks)
-        string1 += "({}, {}, {}, '{}', '{}'),\n".format(ids[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
+        string1 += "({}, {}, {}, '{}', '{}'),\n".format(
+            ids[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
         illness = sample(range(len(treats)), 3)
         for e in illness:
             string2 += "({}, {}),\n".format(ids[i], e)
