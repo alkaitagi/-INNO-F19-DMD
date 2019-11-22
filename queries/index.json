@@ -1,10 +1,10 @@
 [
     {
         "display": "First query",
-        "file": "first.txt"
+        "file": "first.sql"
     },
     {
         "display": "Second query",
-        "file": "second.txt"
+        "file": "second.sql"
     }
 ]
