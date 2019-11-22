@@ -28,7 +28,7 @@ def logs(i):
 
 def inventory(i):
     types = ["medication", "food"]
-    drugs = list(open('medic.txt'))
+    drugs = list(open('samples/medic.txt'))
 
     print("INSERT INTO Log VALUES")
     ans = ""
