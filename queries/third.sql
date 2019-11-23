@@ -1,1 +1,4 @@
-SELECT * from Attends;
+SELECT
+    *
+from
+    Attends;

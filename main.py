@@ -8,7 +8,7 @@ def displayQueries(queries):
     print('Available queries:')
     for query in queries:
         i += 1
-        print(f'{i}. {query["display"]}')
+        print('{}. {}'.format(i, query["display"]))
 
 
 def loadQueries():
@@ -24,9 +24,17 @@ displayQueries(queries)
 
 while True:
     i = int(input('\nSelect: ')) - 1
+    info = queries[i]
+    with open('queries/' + info["file"]) as query:
+        sql = query.read()
+        argc = info["argc"]
 
-    with open(f'queries/{queries[i]["file"]}') as query:
-        cur.execute(query.read())
+        if argc > 0:
+            args = input("Input {} argument(s): ".format(argc)).split(' ', argc)
+            for a in range(argc):
+                sql = sql.replace("{ " + "ARG{}".format(a) + " }", args[a])
+
+        cur.execute(sql.read())
         print(cur.fetchall())
 
     print('Executed')
