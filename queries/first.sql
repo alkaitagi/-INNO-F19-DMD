@@ -1,4 +1,3 @@
-INSERT INTO STUDENT
-    (ADMISSION,NAME,AGE,COURSE,DEPARTMENT)
-VALUES
-    (3421, 'Мага с Кайтага', 33, 'Computer Science', 'ICT')
+SELECT DISTINCT employee.name, employee.surname, employee.ssn
+from attends, employee
+where attends.employee_ssn = ssn and attends.patient_ssn = 103 and ((employee.name LIKE 'K%' or employee.name LIKE 'C%') <> (employee.surname LIKE 'L%' or employee.surname LIKE 'M%'))

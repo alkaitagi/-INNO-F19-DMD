@@ -27,6 +27,7 @@ while True:
 
     with open(f'queries/{queries[i]["file"]}') as query:
         cur.execute(query.read())
+        print(cur.fetchall())
 
     print('Executed')
 

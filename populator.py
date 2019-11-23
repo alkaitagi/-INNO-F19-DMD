@@ -53,4 +53,4 @@ print(rooms,
       sep="\n")
 
 conn.commit()
-#conn.close()
+conn.close()
