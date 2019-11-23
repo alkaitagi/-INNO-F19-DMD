@@ -6,7 +6,7 @@ from
     attends,
     employee
 where
-    attends.employee_ssn = { ARG0 }
+    attends.employee_ssn = ###ARG0 
     and attends.patient_ssn = 103
     and (
         (

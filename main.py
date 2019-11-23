@@ -20,7 +20,7 @@ def readArguments(sql, argc):
     if argc > 0:
         args = input("Write {} argument(s): ".format(argc)).split(' ', argc)
         for a in range(argc):
-            sql = sql.replace("{ " + "ARG{}".format(a) + " }", args[a])
+            sql = sql.replace("###ARG{}".format(a), args[a])
     return sql
 
 
