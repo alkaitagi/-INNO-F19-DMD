@@ -34,7 +34,7 @@ while True:
             for a in range(argc):
                 sql = sql.replace("{ " + "ARG{}".format(a) + " }", args[a])
 
-        cur.execute(sql.read())
+        cur.execute(sql)
         print(cur.fetchall())
 
     print('Executed')
