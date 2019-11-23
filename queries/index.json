@@ -1,26 +1,26 @@
 [
   {
-    "display": "First query",
+    "title": "First query",
     "file": "first.sql",
     "argc": 1
   },
   {
-    "display": "Second query",
+    "title": "Second query",
     "file": "second.sql",
     "argc": 0
   },
   {
-    "display": "Third query",
+    "title": "Third query",
     "file": "third.sql",
     "argc": 0
   },
   {
-    "display": "Fourth query",
+    "title": "Fourth query",
     "file": "fourth.sql",
     "argc": 0
   },
   {
-    "display": "Fifth query",
+    "title": "Fifth query",
     "file": "fifth.sql",
     "argc": 0
   }

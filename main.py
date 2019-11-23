@@ -1,6 +1,7 @@
 import os
 import psycopg2
 import json
+from prettytable import from_db_cursor
 
 
 def displayQueries(queries):
@@ -8,7 +9,7 @@ def displayQueries(queries):
     print('Available queries:')
     for query in queries:
         i += 1
-        print('{}. {}'.format(i, query["display"]))
+        print('{}. {}'.format(i, query["title"]))
 
 
 def loadQueries():
@@ -35,9 +36,9 @@ while True:
     info = queries[i]
     with open('queries/' + info["file"]) as query:
         cur.execute(readArguments(query.read(), info["argc"]))
-        print(cur.fetchall())
+        print(from_db_cursor(cur))
 
-    print('Executed')
+    print('\nExecuted')
 
 con.commit()
 con.close()
