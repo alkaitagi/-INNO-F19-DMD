@@ -16,6 +16,14 @@ def loadQueries():
         return json.load(file)
 
 
+def readArguments(sql, argc):
+    if argc > 0:
+        args = input("Write {} argument(s): ".format(argc)).split(' ', argc)
+        for a in range(argc):
+            sql = sql.replace("{ " + "ARG{}".format(a) + " }", args[a])
+    return sql
+
+
 con = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
 cur = con.cursor()
 
@@ -26,15 +34,7 @@ while True:
     i = int(input('\nSelect: ')) - 1
     info = queries[i]
     with open('queries/' + info["file"]) as query:
-        sql = query.read()
-        argc = info["argc"]
-
-        if argc > 0:
-            args = input("Input {} argument(s): ".format(argc)).split(' ', argc)
-            for a in range(argc):
-                sql = sql.replace("{ " + "ARG{}".format(a) + " }", args[a])
-
-        cur.execute(sql)
+        cur.execute(readArguments(query.read(), info["argc"]))
         print(cur.fetchall())
 
     print('Executed')
