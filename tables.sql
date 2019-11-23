@@ -1,138 +1,123 @@
-CREATE TABLE Employee
-(
-    ssn INTEGER PRIMARY KEY,
-    name VARCHAR (50),
-    surname VARCHAR (50),
-    phone VARCHAR(20),
-    specialization VARCHAR (50),
-    salary INTEGER,
-    type VARCHAR (15)
+CREATE TABLE Employee (
+  ssn INTEGER PRIMARY KEY,
+  name VARCHAR (50),
+  surname VARCHAR (50),
+  phone VARCHAR(20),
+  specialization VARCHAR (50),
+  salary INTEGER,
+  type VARCHAR (15)
 );
 
-CREATE TABLE Room
-(
-    id INTEGER PRIMARY KEY,
-    type VARCHAR (20) NOT NULL,
-    quantity_of_beds INTEGER NOT NULL
+CREATE TABLE Room (
+  id INTEGER PRIMARY KEY,
+  type VARCHAR (20) NOT NULL,
+  quantity_of_beds INTEGER NOT NULL
 );
 
-CREATE TABLE Patient
-(
-    ssn INTEGER PRIMARY KEY NOT NULL,
-    name VARCHAR (50) NOT NULL,
-    surname VARCHAR (50) NOT NULL,
-    gender VARCHAR (25) NOT NULL,
-    weight INTEGER,
-    birth_date DATE,
-    height INTEGER,
-    blood_type VARCHAR(20),
-    phone VARCHAR(20),
-    country VARCHAR(50),
-    city VARCHAR(50),
-    street VARCHAR(50),
-    building VARCHAR(20),
-    room_id INTEGER REFERENCES Room(id)
+CREATE TABLE Patient (
+  ssn INTEGER PRIMARY KEY NOT NULL,
+  name VARCHAR (50) NOT NULL,
+  surname VARCHAR (50) NOT NULL,
+  gender VARCHAR (25) NOT NULL,
+  weight INTEGER,
+  birth_date DATE,
+  height INTEGER,
+  blood_type VARCHAR(20),
+  phone VARCHAR(20),
+  country VARCHAR(50),
+  city VARCHAR(50),
+  street VARCHAR(50),
+  building VARCHAR(20),
+  room_id INTEGER REFERENCES Room(id)
 );
 
-CREATE TABLE Log
-(
-    id INTEGER PRIMARY KEY NOT NULL,
-    name VARCHAR (50) NOT NULL,
-    description VARCHAR (50) NOT NULL,
-    time TIMESTAMP NOT NULL
+CREATE TABLE Log (
+  id INTEGER PRIMARY KEY NOT NULL,
+  name VARCHAR (50) NOT NULL,
+  description VARCHAR (50) NOT NULL,
+  time TIMESTAMP NOT NULL
 );
 
-CREATE TABLE Inventory_item
-(
-    id INTEGER PRIMARY KEY NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    quantity INTEGER NOT NULL,
-    type VARCHAR (50) NOT NULL,
-    supplier VARCHAR (50) NOT NULL,
-    cost INTEGER NOT NULL
+CREATE TABLE Inventory_item (
+  id INTEGER PRIMARY KEY NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  quantity INTEGER NOT NULL,
+  type VARCHAR (50) NOT NULL,
+  supplier VARCHAR (50) NOT NULL,
+  cost INTEGER NOT NULL
 );
 
-CREATE TABLE Analysis_result
-(
-    id INTEGER NOT NULL,
-    patient_ssn INTEGER NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    result VARCHAR(2000) NOT NULL,
-    date DATE NOT NULL,
-    PRIMARY KEY(id, patient_ssn)
+CREATE TABLE Analysis_result (
+  id INTEGER NOT NULL,
+  patient_ssn INTEGER NOT NULL,
+  type VARCHAR(50) NOT NULL,
+  result VARCHAR(2000) NOT NULL,
+  date DATE NOT NULL,
+  PRIMARY KEY(id, patient_ssn)
 );
 
-CREATE TABLE Treatment_plan
-(
-    id INTEGER PRIMARY KEY,
-    doctor_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
-    patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
-    discharge_date DATE,
-    hospitalization_date DATE
+CREATE TABLE Treatment_plan (
+  id INTEGER PRIMARY KEY,
+  doctor_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
+  patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
+  discharge_date DATE,
+  hospitalization_date DATE
 );
 
-CREATE TABLE Attends
-(
-    employee_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
-    patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
-    cost INTEGER,
-    description VARCHAR(500),
-    date TIMESTAMP,
-    PRIMARY KEY(date, employee_ssn, patient_ssn)
+CREATE TABLE Attends (
+  employee_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
+  patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
+  cost INTEGER,
+  description VARCHAR(500),
+  date TIMESTAMP,
+  PRIMARY KEY(date, employee_ssn, patient_ssn)
 );
 
-CREATE TABLE Prescribe
-(
-    employee_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
-    patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
-    description VARCHAR(500),
-    date TIMESTAMP,
-    PRIMARY KEY(date, employee_ssn, patient_ssn)
+CREATE TABLE Prescribe (
+  employee_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
+  patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
+  description VARCHAR(500),
+  date TIMESTAMP,
+  PRIMARY KEY(date, employee_ssn, patient_ssn)
 );
 
-CREATE TABLE Chat
-(
-    message_id VARCHAR(50) NOT NULL,
-    time TIMESTAMP NOT NULL,
-    employee_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
-    patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
-    text VARCHAR(500),
-    PRIMARY KEY(message_id, employee_ssn, patient_ssn)
+CREATE TABLE Chat (
+  message_id VARCHAR(50) NOT NULL,
+  time TIMESTAMP NOT NULL,
+  employee_ssn INTEGER REFERENCES Employee(ssn) NOT NULL,
+  patient_ssn INTEGER REFERENCES Patient(ssn) NOT NULL,
+  text VARCHAR(500),
+  PRIMARY KEY(message_id, employee_ssn, patient_ssn)
 );
 
-CREATE TABLE Uses
-(
-    inventory_id INTEGER NOT NULL,
-    treatment_id INTEGER NOT NULL,
-    FOREIGN KEY (inventory_id) REFERENCES Inventory_item(id),
-    FOREIGN KEY (treatment_id) REFERENCES Treatment_plan(id),
-    PRIMARY KEY(inventory_id, treatment_id)
+CREATE TABLE Uses (
+  inventory_id INTEGER NOT NULL,
+  treatment_id INTEGER NOT NULL,
+  FOREIGN KEY (inventory_id) REFERENCES Inventory_item(id),
+  FOREIGN KEY (treatment_id) REFERENCES Treatment_plan(id),
+  PRIMARY KEY(inventory_id, treatment_id)
 );
 
-CREATE TABLE Treatment_diagnoses
-(
-    treatment_id INTEGER NOT NULL,
-    diagnoses_id INTEGER NOT NULL,
-    PRIMARY KEY (treatment_id, diagnoses_id)
+CREATE TABLE Treatment_diagnoses (
+  treatment_id INTEGER NOT NULL,
+  diagnoses_id INTEGER NOT NULL,
+  PRIMARY KEY (treatment_id, diagnoses_id)
 );
 
-CREATE TABLE Diagnoses
-(
-    id INTEGER NOT NULL,
-    description VARCHAR (50) NOT NULL,
-    PRIMARY KEY (id)
+CREATE TABLE Diagnoses (
+  id INTEGER NOT NULL,
+  description VARCHAR (50) NOT NULL,
+  PRIMARY KEY (id)
 );
 
-CREATE TABLE Treatment_procedures
-(
-    treatment_id INTEGER NOT NULL,
-    procedures_id INTEGER NOT NULL,
-    PRIMARY KEY (treatment_id, procedures_id)
+CREATE TABLE Treatment_procedures (
+  treatment_id INTEGER NOT NULL,
+  procedures_id INTEGER NOT NULL,
+  PRIMARY KEY (treatment_id, procedures_id)
 );
 
-CREATE TABLE Procedures
-(
-    id INTEGER NOT NULL,
-    description VARCHAR (50) NOT NULL,
-    PRIMARY KEY (id)
+CREATE TABLE Procedures (
+  id INTEGER NOT NULL,
+  description VARCHAR (50) NOT NULL,
+  PRIMARY KEY (id)
 );
