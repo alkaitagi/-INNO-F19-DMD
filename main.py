@@ -2,6 +2,7 @@ import os
 import psycopg2
 import json
 from prettytable import from_db_cursor
+from pydoc import locate
 
 
 def displayQueries(queries):
@@ -17,12 +18,15 @@ def loadQueries():
         return json.load(file)
 
 
-def readArguments(sql, argc):
+def readArguments(args):
+    dict = {}
+    argc = len(args)
+
     if argc > 0:
-        args = input("Write {} argument(s): ".format(argc)).split(' ', argc)
-        for a in range(argc):
-            sql = sql.replace("###ARG{}".format(a), args[a])
-    return sql
+        words = input("Write {} argument(s): ".format(argc)).split(' ', argc)
+        for i in range(argc):
+            dict["arg{}".format(i)] = locate(args[i])(words[i])
+    return dict
 
 
 con = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
@@ -35,7 +39,7 @@ while True:
     i = int(input('\nSelect: ')) - 1
     info = queries[i]
     with open('queries/' + info["file"]) as query:
-        cur.execute(readArguments(query.read(), info["argc"]))
+        cur.execute(query.read(), readArguments(info["args"]))
         print(from_db_cursor(cur))
 
     print('\nExecuted')

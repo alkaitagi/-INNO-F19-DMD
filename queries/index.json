@@ -2,26 +2,28 @@
   {
     "title": "First query",
     "file": "first.sql",
-    "argc": 1
+    "args": [
+      "int"
+    ]
   },
   {
     "title": "Second query",
     "file": "second.sql",
-    "argc": 0
+    "args": []
   },
   {
     "title": "Third query",
     "file": "third.sql",
-    "argc": 0
+    "args": []
   },
   {
     "title": "Fourth query",
     "file": "fourth.sql",
-    "argc": 0
+    "args": []
   },
   {
     "title": "Fifth query",
     "file": "fifth.sql",
-    "argc": 0
+    "args": []
   }
 ]

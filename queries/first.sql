@@ -7,7 +7,7 @@ from
     employee
 where
     attends.employee_ssn = ssn
-    and attends.patient_ssn = ###ARG0
+    and attends.patient_ssn = %(arg0)d
     and (
         (
             employee.name LIKE 'K%'
