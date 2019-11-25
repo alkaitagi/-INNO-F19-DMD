@@ -1,11 +1,14 @@
 select ssn as patient_ssn
 from patient
 EXCEPT
-((select ssn as patient_ssn
-from patient
-EXCEPT
-select patient_ssn
-from attends)
+(
+(SELECT ssn
+FROM   attends, patient
+WHERE attends.patient_ssn=ssn and  Extract(year FROM date) = 2015 and Extract(month FROM date) = 6
+GROUP  BY ssn
+HAVING
+COUNT(DISTINCT Extract(week FROM date))<>5)
+
 UNION
 (SELECT ssn as patient_ssn
 FROM   attends, patient
