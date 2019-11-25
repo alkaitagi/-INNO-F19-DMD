@@ -10,10 +10,10 @@ where
     and attends.patient_ssn = %(arg0)s
     and (
         (
-            employee.name LIKE 'K%%'
-            or employee.name LIKE 'C%%'
+            employee.name LIKE 'M%%'
+            or employee.name LIKE 'L%%'
         ) <> (
-            employee.surname LIKE 'L%%'
-            or employee.surname LIKE 'M%%'
+            employee.surname LIKE 'M%%'
+            or employee.surname LIKE 'L%%'
         )
     )
