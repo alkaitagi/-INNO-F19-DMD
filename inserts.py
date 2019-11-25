@@ -8,56 +8,65 @@ with open('samples.json') as file:
     samples = json.load(file)
 
 
-def randomString(stringLength=10):
-    # Generate a random string of fixed length
+def randomString(n):
+    # n - length of a string to be generated
 
     letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(stringLength))
+    return ''.join(random.choice(letters) for i in range(n))
 
 
-def insert_uses(inv_id1, inv_id2, trm_id1, trm_id2):
-    # a:b - available inventory id's
-    # c:d - available trearment id's
-
-    inserts = "INSERT INTO Uses (inventory_id, treatment_id) VALUES\n "
-
-    l = min(min(inv_id2 - inv_id1, trm_id2 - trm_id1), 4)
-    for k in range(l):
-        inserts += "({}, {}),\n".format(inv_id1 + k, trm_id1 + k)
-
-    inserts = inserts[:-2] + ';\n'
-    return inserts
+def finalizeSql(sql):
+    return '{};\n'.format(sql[:-2])
 
 
-def insert_chat(l, emp_ssn1, emp_ssn2, pat_ssn1, pat_ssn2):
-    # l - number of prescribes, i:j - available employee ssn, m:m - available patient ssn
+def insert_uses(inventory_items, treatment_plans):
+    # inventory_items - available inventory items ids
+    # treatment_plans - available trearment plans ids
 
-    inserts = "INSERT INTO Chat (message_id, time, employee_ssn, patient_ssn, text) VALUES\n "
+    sql = "INSERT INTO Uses (inventory_id, treatment_id) VALUES\n "
 
-    for k in range(l):
-        inserts += "('{}', '{}', {}, {}, '{}'),\n".format(
-            randomString(50),
+    random.shuffle(inventory_items)
+    random.shuffle(treatment_plans)
+    n = min(len(inventory_items), len(treatment_plans))
+
+    for i in range(n):
+        sql += "({}, {}),\n".format(inventory_items[i], treatment_plans[i])
+
+    return finalizeSql(sql)
+
+
+def insert_chats(n, employees, patients):
+    # n - number of chats
+    # employees - available employee ssns
+    # patients - available patient ssns
+
+    sql = "INSERT INTO Chat (message_id, time, employee_ssn, patient_ssn, text) VALUES\n "
+
+    for i in range(n):
+        sql += "('{}', '{}', {}, {}, '{}'),\n".format(
+            randomString(64),
             radar.random_datetime(start=datetime.datetime(year=2015,
                                                           month=5,
                                                           day=24),
                                   stop=datetime.datetime(year=2019,
                                                          month=5,
                                                          day=24)),
-            random.randint(emp_ssn1, emp_ssn2 - 1),
-            random.randint(pat_ssn1, pat_ssn2 - 1), "Random message")
-    inserts = inserts[:-2] + ';\n'
-    return inserts
+            random.choice(employees), random.choice(patients),
+            "Random message")
+
+    return finalizeSql(sql)
 
 
-def insert_attends(l, emp_ssn1, emp_ssn2, pat_ssn1, pat_ssn2):
-    # l - number of attends, i:j - available employee ssn, m:m - available patient ssn
+def insert_attends(n, employees, patients):
+    # n - number of attends
+    # employees - available employee ssns
+    # patients - available patient ssns
 
-    inserts = "INSERT INTO Attends (employee_ssn, patient_ssn, cost, description, date) VALUES\n "
+    sql = "INSERT INTO Attends (employee_ssn, patient_ssn, cost, description, date) VALUES\n "
 
-    for k in range(l):
-        inserts += "({}, {}, {}, '{}', '{}'),\n".format(
-            random.randint(emp_ssn1, emp_ssn2 - 1),
-            random.randint(pat_ssn1, pat_ssn2 - 1),
+    for i in range(n):
+        sql += "({}, {}, {}, '{}', '{}'),\n".format(
+            random.choice(employees), random.choice(patients),
             random.randint(1000, 50000), "Attend description",
             radar.random_date(start=datetime.datetime(year=2015,
                                                       month=5,
@@ -65,98 +74,118 @@ def insert_attends(l, emp_ssn1, emp_ssn2, pat_ssn1, pat_ssn2):
                               stop=datetime.datetime(year=2016,
                                                      month=5,
                                                      day=24)))
-    inserts = inserts[:-2] + ';\n'
-    return inserts
+
+    return finalizeSql(sql)
 
 
-def insert_prescribe(l, emp_ssn1, emp_ssn2, pat_ssn1, pat_ssn2):
-    # l - number of prescribes, i:j - available employee ssn, m:m - available patient ssn
+def insert_prescribes(n, employees, patients):
+    # n - number of prescribes
+    # employees - available employee ssns
+    # patients - available patient ssns
 
-    inserts = "INSERT INTO Prescribe (employee_ssn, patient_ssn, description, date) VALUES\n "
+    sql = "INSERT INTO Prescribe (employee_ssn, patient_ssn, description, date) VALUES\n "
 
-    for k in range(l):
-        inserts += "({}, {}, '{}', '{}'),\n".format(
-            random.randint(emp_ssn1, emp_ssn2 - 1),
-            random.randint(pat_ssn1, pat_ssn2 - 1), "Doctor attends patient",
+    for i in range(n):
+        sql += "({}, {}, '{}', '{}'),\n".format(
+            random.choice(employees), random.choice(patients),
+            "Doctor attends patient",
             radar.random_date(start=datetime.date(year=2015, month=5, day=24),
                               stop=datetime.date(year=2019, month=5, day=24)))
-    inserts = inserts[:-2] + ';\n'
-    return inserts
+
+    return finalizeSql(sql)
 
 
-def insert_analysis_result(i, pat_ssn1, pat_ssn2):
-    inserts = "INSERT INTO Analysis_result (id, patient_ssn, type, result, date) VALUES\n "
+def insert_analysis_results(analyzes, patients):
+    # analyzes - available analyzes ids
+    # patients - available patient ssns
 
-    for j in range(i):
-        inserts += "({}, {}, '{}', '{}', '{}'),\n".format(
-            j,
-            random.randint(pat_ssn1, pat_ssn2 - 1),
-            random.choice(samples["analysis_types"]),
+    sql = "INSERT INTO Analysis_result (id, patient_ssn, type, result, date) VALUES\n "
+
+    analysis_types = samples["analysis_types"]
+
+    for i in analyzes:
+        sql += "({}, {}, '{}', '{}', '{}'),\n".format(
+            i,
+            random.choice(patients),
+            random.choice(analysis_types),
             'Medical result',
             radar.random_date(start=datetime.date(year=2015, month=5, day=24),
                               stop=datetime.date(year=2019, month=5, day=24)),
         )
-    inserts = inserts[:-2] + ';\n'
-    return inserts
+
+    return finalizeSql(sql)
 
 
-def insert_employee(pat_ssn1, pat_ssn2, type):
-    inserts = "INSERT INTO Employee (ssn, name, surname, phone, specialization, salary, type) VALUES \n "
-    for k in range(pat_ssn1, pat_ssn2):
-        inserts += "({}, '{}', '{}', '+{}', '{}', {}, '{}'),\n".format(
-            k, random.choice(samples["names"]),
-            random.choice(samples["surnames"]),
+def insert_employees(employees, type):
+    # employees - range of employee ssns to insert
+    # type - the employees type
+
+    sql = "INSERT INTO Employee (ssn, name, surname, phone, specialization, salary, type) VALUES \n "
+
+    names = samples["names"]
+    surnames = samples["surnames"]
+    specialization_types = samples["specializations"][type]
+
+    for i in employees:
+        sql += "({}, '{}', '{}', '+{}', '{}', {}, '{}'),\n".format(
+            i, random.choice(names), random.choice(surnames),
             random.randint(10**11, 10**12 - 1),
-            random.choice(samples["specializations"][type]),
+            random.choice(specialization_types),
             random.randint(20, 60) * 1000, type)
 
-    inserts = inserts[:-2] + ';\n'
-    return inserts
+    return finalizeSql(sql)
 
 
-def insert_patient(pat_ssn1, pat_ssn2, room_id1, room_id2):
-    # i:j - available ssn's
-    # m:n - available room_id's
+def insert_patients(patients, rooms):
+    # patiens - range of patient ssns to insert
+    # rooms - range of available room ids
 
-    inserts = "INSERT INTO Patient (ssn, name, surname, gender, weight, birth_date, height, blood_type, phone, country, city, street, building, room_id) VALUES \n"
-    for k in range(pat_ssn1, pat_ssn2):
-        inserts += "({}, '{}', '{}', '{}', {}, '{}', {}, '{}', '+{}', '{}', '{}', '{}', {}, {}),\n".format(
-            k, random.choice(samples["names"]),
-            random.choice(samples["surnames"]),
-            random.choice(samples["genders"]), random.randint(45, 100),
+    sql = "INSERT INTO Patient (ssn, name, surname, gender, weight, birth_date, height, blood_type, phone, country, city, street, building, room_id) VALUES \n"
+
+    names = samples["names"]
+    surnames = samples["surnames"]
+    genders = samples["genders"]
+    blood_types = samples["blood_types"]
+    contries = samples["countries"]
+    cities = samples["cities"]
+    streets = samples["streets"]
+
+    for i in patients:
+        sql += "({}, '{}', '{}', '{}', {}, '{}', {}, '{}', '+{}', '{}', '{}', '{}', {}, {}),\n".format(
+            i, random.choice(names), random.choice(surnames),
+            random.choice(genders), random.randint(45, 100),
             radar.random_date(start=datetime.date(year=1960, month=5, day=24),
                               stop=datetime.date(year=2013, month=5, day=24)),
-            random.randint(80, 220), random.choice(samples["blood_types"]),
-            random.randint(10**11, 10**12 - 1),
-            random.choice(samples["countries"]),
-            random.choice(samples["cities"]),
-            random.choice(samples["streets"]), random.randint(1, 10),
-            random.randint(room_id1, room_id2 - 1))
+            random.randint(80, 220), random.choice(blood_types),
+            random.randint(10**11, 10**12 - 1), random.choice(contries),
+            random.choice(cities), random.choice(streets),
+            random.randint(1, 10), random.choice(rooms))
 
-    inserts = inserts[:-2] + ';\n'
-    return inserts
+    return finalizeSql(sql)
 
 
 def insert_rooms(rooms, beds):
-    # rooms - number of rooms to insert
-    # beds - range of possible beds per room
+    # rooms - range of room ids to insert
+    # beds - range of possible bed ids per room
 
     sql = "INSERT INTO Room (id, type, quantity_of_beds) VALUES \n"
+    room_types = samples["room_types"]
 
-    for i, room in enumerate(random.choices(samples["room_types"], k=rooms)):
-        sql += "({}, '{}', {}),\n".format(i, room, random.choice(beds))
+    for i in range(rooms):
+        sql += "({}, '{}', {}),\n".format(i, random.choice(room_types),
+                                          random.choice(beds))
 
-    return sql[:-2] + ';\n'
+    return finalizeSql(sql)
 
 
-def insert_log(i):
-    # i - number of logs id's
+def insert_logs(logs):
+    # logs - available logs ids
 
-    inserts = "INSERT INTO Log (id, name, description, time) VALUES \n"
+    sql = "INSERT INTO Log (id, name, description, time) VALUES \n"
 
-    for k in range(i):
-        inserts += "({}, '{}', '{}', '{}'),\n".format(
-            k, "log_{}".format(k), "initialization",
+    for i in logs:
+        sql += "({}, '{}', '{}', '{}'),\n".format(
+            i, "log_{}".format(i), "initialization",
             radar.random_date(start=datetime.datetime(year=2015,
                                                       month=5,
                                                       day=24),
@@ -164,36 +193,38 @@ def insert_log(i):
                                                      month=5,
                                                      day=24)))
 
-    inserts = inserts[:-2] + ';\n'
-    return inserts
+    return finalizeSql(sql)
 
 
-def insert_inventory(i):
-    # i - number of inventory items id's
+def insert_inventory(inventory_items):
+    # inventory_items - available ids of inventory items
 
-    inserts = "INSERT INTO Inventory_item (id, name, quantity, type, supplier, cost) VALUES \n"
-    for k in range(i):
-        inserts += "({}, '{}', {}, '{}', '{}', {}),\n".format(
-            k, random.choice(samples["inventory_items"]),
-            random.randint(2, 10), 'medicine',
-            random.choice(samples["suppliers"]),
+    sql = "INSERT INTO Inventory_item (id, name, quantity, type, supplier, cost) VALUES \n"
+
+    inventory_items = samples["inventory_items"]
+    suppliers = samples["suppliers"]
+
+    for i in inventory_items:
+        sql += "({}, '{}', {}, '{}', '{}', {}),\n".format(
+            i, random.choice(inventory_items), random.randint(2, 10),
+            'medicine', random.choice(suppliers),
             random.randint(10, 50) * 500)
 
-    inserts = inserts[:-2] + ';\n'
-    return inserts
+    return finalizeSql(sql)
 
 
-def insert_treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
-    ans = ""
-    ids = list(range(0, n))
-    random.shuffle(ids)
-    doc_snn = []
-    for j in range(n):
-        doc_snn.append(random.randint(doc_ssn1, doc_snn_2 - 1))
+def insert_treatment_plans(treatment_plans, employees, patients):
+    # God help the one who will try to read this function, أَسْتَغْفِرُ اللّٰهَ‎
 
-    pat_snn = []
-    for j in range(n):
-        pat_snn.append(random.randint(pat_snn1, pat_snn_2 - 1))
+    # treatment_plans - available ids of treatment plans
+    # employees - available employee ssns
+    # patients - available patient ssns
+
+    sql = ""
+
+    n = len(treatment_plans)
+    doc_snn = random.choices(employees, n)
+    pat_snn = random.choices(patients, n)
 
     two_weeks = 1209600
     treats = samples["treatments"]
@@ -201,7 +232,7 @@ def insert_treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
     string = ""
     for i, diag in enumerate(treats.keys()):
         string += "({}, '{}'),\n".format(i, diag)
-    ans += "INSERT INTO Diagnoses VALUES \n" + string[:-2] + ";\n\n"
+    sql += "INSERT INTO Diagnoses VALUES \n{}\n".format(finalizeSql(string))
 
     c = 0
     string = ""
@@ -219,12 +250,12 @@ def insert_treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
                 a.append(opthing[e2])
         thing[i] = a
 
-    ans += "INSERT INTO Procedures VALUES \n" + string[:-2] + ";\n\n"
+    sql += "INSERT INTO Procedures VALUES \n{}\n".format(finalizeSql(string))
 
     string1 = ""
     string2 = ""
     string3 = ""
-    for i in range(n):
+    for i in n:
         hos_date = radar.random_date(start=datetime.date(year=2015,
                                                          month=1,
                                                          day=1),
@@ -235,17 +266,18 @@ def insert_treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
                                               datetime.time(0, 0)).timestamp()
         dis_date = datetime.date.fromtimestamp(timestamp + two_weeks)
         string1 += "({}, {}, {}, '{}', '{}'),\n".format(
-            ids[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
+            treatment_plans[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
         illness = random.sample(range(len(treats)), 3)
         for e in illness:
-            string2 += "({}, {}),\n".format(ids[i], e)
-            string3 += "({}, {}),\n".format(ids[i], random.choice(thing[e]))
+            string2 += "({}, {}),\n".format(treatment_plans[i], e)
+            string3 += "({}, {}),\n".format(treatment_plans[i],
+                                            random.choice(thing[e]))
 
-    ans += "INSERT INTO Treatment_plan VALUES\n" + string1[:-2] + ";\n\n"
-    ans += "INSERT INTO Treatment_diagnoses  VALUES\n" + string2[:-2] + ";\n\n"
-    ans += "INSERT INTO Treatment_procedures VALUES\n" + string3[:-2] + ";\n\n"
+    sql += "INSERT INTO Treatment_plan VALUES\n{}\n".format(
+        finalizeSql(string1))
+    sql += "INSERT INTO Treatment_diagnoses  VALUES\n{}\n".format(
+        finalizeSql(string2))
+    sql += "INSERT INTO Treatment_procedures VALUES\n{}\n".format(
+        finalizeSql(string3))
 
-    return ans
-
-
-#print(insert_treatment_plan(5, 1, 100, 101, 200))
+    return sql

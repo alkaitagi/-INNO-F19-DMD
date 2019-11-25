@@ -1,3 +1,47 @@
 {
-    
+    "rooms": [
+        0,
+        5
+    ],
+    "beds": [
+        5,
+        10
+    ],
+    "patients": [
+        101,
+        105
+    ],
+    "doctors": [
+        1,
+        5
+    ],
+    "nurses": [
+        5,
+        10
+    ],
+    "analyzes": [
+        0,
+        5
+    ],
+    "inventory_items": [
+        0,
+        3
+    ],
+    "treatment_plans": [
+        0,
+        3
+    ],
+    "logs": [
+        0,
+        3
+    ],
+    "prescribes": [
+        3
+    ],
+    "attends": [
+        100
+    ],
+    "chats": [
+        3
+    ]
 }
