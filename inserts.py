@@ -59,12 +59,12 @@ def insert_attends(l, emp_ssn1, emp_ssn2, pat_ssn1, pat_ssn2):
             random.randint(emp_ssn1, emp_ssn2 - 1),
             random.randint(pat_ssn1, pat_ssn2 - 1),
             random.randint(1000, 50000), "Attend description",
-            radar.random_date(start=datetime.datetime(year=2019,
+            radar.random_date(start=datetime.datetime(year=2010,
                                                       month=5,
                                                       day=24),
                               stop=datetime.datetime(year=2019,
                                                      month=11,
-                                                     day=24)))
+                                                     day=27)))
     inserts = inserts[:-2] + ';\n'
     return inserts
 

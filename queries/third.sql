@@ -8,6 +8,7 @@ WHERE attends.patient_ssn=ssn and  Extract(year FROM date) = %(arg0)s and Extrac
 GROUP  BY ssn
 HAVING
 COUNT(DISTINCT Extract(week FROM date))<>5)
+
 UNION
 (SELECT ssn as patient_ssn
 FROM   attends, patient
