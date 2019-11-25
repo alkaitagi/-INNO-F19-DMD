@@ -267,7 +267,7 @@ def insert_treatment_plans(treatment_plans, employees, patients):
         dis_date = datetime.date.fromtimestamp(timestamp + two_weeks)
         string1 += "({}, {}, {}, '{}', '{}'),\n".format(
             treatment_plans[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
-        illness = random.sample(range(len(treats)), 3)
+        illness = random.sample(range(len(treats)), 1)
         for e in illness:
             string2 += "({}, {}),\n".format(treatment_plans[i], e)
             string3 += "({}, {}),\n".format(treatment_plans[i],
