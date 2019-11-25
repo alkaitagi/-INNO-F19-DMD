@@ -104,7 +104,8 @@ def insert_employee(pat_ssn1, pat_ssn2, type):
     inserts = "INSERT INTO Employee (ssn, name, surname, phone, specialization, salary, type) VALUES \n "
     for k in range(pat_ssn1, pat_ssn2):
         inserts += "({}, '{}', '{}', '+{}', '{}', {}, '{}'),\n".format(
-            k, random.choice(samples["names"]), random.choice(samples["surnames"]),
+            k, random.choice(samples["names"]),
+            random.choice(samples["surnames"]),
             random.randint(10**11, 10**12 - 1),
             random.choice(samples["specializations"][type]),
             random.randint(20, 60) * 1000, type)
@@ -119,13 +120,15 @@ def insert_patient(pat_ssn1, pat_ssn2, room_id1, room_id2):
     inserts = "INSERT INTO Patient (ssn, name, surname, gender, weight, birth_date, height, blood_type, phone, country, city, street, building, room_id) VALUES \n"
     for k in range(pat_ssn1, pat_ssn2):
         inserts += "({}, '{}', '{}', '{}', {}, '{}', {}, '{}', '+{}', '{}', '{}', '{}', {}, {}),\n".format(
-            k, random.choice(samples["names"]), random.choice(samples["surnames"]),
+            k, random.choice(samples["names"]),
+            random.choice(samples["surnames"]),
             random.choice(samples["genders"]), random.randint(45, 100),
             radar.random_date(start=datetime.date(year=1960, month=5, day=24),
                               stop=datetime.date(year=2013, month=5, day=24)),
             random.randint(80, 220), random.choice(samples["blood_types"]),
             random.randint(10**11, 10**12 - 1),
-            random.choice(samples["countries"]), random.choice(samples["cities"]),
+            random.choice(samples["countries"]),
+            random.choice(samples["cities"]),
             random.choice(samples["streets"]), random.randint(1, 10),
             random.randint(room_id1, room_id2 - 1))
 
@@ -136,9 +139,8 @@ def insert_patient(pat_ssn1, pat_ssn2, room_id1, room_id2):
 def insert_room(room_id1, room_id2):
     inserts = "INSERT INTO Room (id, type, quantity_of_beds) VALUES \n"
     for k in range(room_id1, room_id2):
-        inserts += "({}, '{}', {}),\n".format(k,
-                                              random.choice(samples["room_types"]),
-                                              random.randint(2, 10))
+        inserts += "({}, '{}', {}),\n".format(
+            k, random.choice(samples["room_types"]), random.randint(2, 10))
 
     inserts = inserts[:-2] + ';\n'
     return inserts
@@ -169,27 +171,10 @@ def insert_inventory(i):
     inserts = "INSERT INTO Inventory_item (id, name, quantity, type, supplier, cost) VALUES \n"
     for k in range(i):
         inserts += "({}, '{}', {}, '{}', '{}', {}),\n".format(
-            k, random.choice(samples["inventory_items"]), random.randint(2, 10),
-            'medicine', random.choice(samples["suppliers"]),
+            k, random.choice(samples["inventory_items"]),
+            random.randint(2, 10), 'medicine',
+            random.choice(samples["suppliers"]),
             random.randint(10, 50) * 500)
-
-    inserts = inserts[:-2] + ';\n'
-    return inserts
-
-
-def insert_treatment_plan_1(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
-
-    inserts = "INSERT INTO Treatment_plan (id, doctor_ssn, patient_ssn, discharge_date, hospitalization_date, diagnoses, procedures) VALUES \n"
-    for k in range(n):
-        diagnoses = random.choice(list(samples.treatments.keys()))
-        inserts += "({}, {}, {}, '{}', '{}', '{}', '{}'),\n".format(
-            k, random.randint(doc_ssn1, doc_snn_2 - 1),
-            random.randint(pat_snn1, pat_snn_2 - 1),
-            radar.random_date(start=datetime.date(year=2014, month=5, day=24),
-                              stop=datetime.date(year=2015, month=5, day=24)),
-            radar.random_date(start=datetime.date(year=2012, month=5, day=24),
-                              stop=datetime.date(year=2013, month=5, day=24)),
-            diagnoses, random.choice(samples.treatments[diagnoses]))
 
     inserts = inserts[:-2] + ';\n'
     return inserts
@@ -208,25 +193,20 @@ def insert_treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
         pat_snn.append(random.randint(pat_snn1, pat_snn_2 - 1))
 
     two_weeks = 1209600
-    treats = list(open("Treatments.txt"))
-    for i in range(len(treats)):
-        treats[i] = treats[i].replace("\n", "")
-
-    while treats.count(""):
-        treats.remove("")
+    treats = samples["treatments"]
 
     string = ""
-    for i, pro in enumerate(treats):
-        string += "({}, '{}'),\n".format(i, pro.split(";")[0])
+    for i, diag in enumerate(treats.keys()):
+        string += "({}, '{}'),\n".format(i, diag)
     ans += "INSERT INTO Diagnoses VALUES \n" + string[:-2] + ";\n\n"
 
     c = 0
     string = ""
     thing = {}
     opthing = {}
-    for i, pro in enumerate(treats):
+    for i, diag in enumerate(treats.keys()):
         a = []
-        for e2 in pro.split(";")[1:]:
+        for e2 in treats[diag]:
             if (not (e2 in opthing)):
                 string += "({}, '{}'),\n".format(c, e2)
                 a.append(c)
@@ -261,6 +241,7 @@ def insert_treatment_plan(n, doc_ssn1, doc_snn_2, pat_snn1, pat_snn_2):
     ans += "INSERT INTO Treatment_plan VALUES\n" + string1[:-2] + ";\n\n"
     ans += "INSERT INTO Treatment_diagnoses  VALUES\n" + string2[:-2] + ";\n\n"
     ans += "INSERT INTO Treatment_procedures VALUES\n" + string3[:-2] + ";\n\n"
+
     return ans
 
 

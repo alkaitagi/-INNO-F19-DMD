@@ -31,7 +31,7 @@
   ],
   "specializations": {
     "doctor": [
-      " Gastroenterology‎",
+      "Gastroenterology‎",
       "General practice‎",
       "Medical genetics‎",
       "Geriatrics‎",
@@ -178,6 +178,34 @@
       "Anticonvulsants",
       "Major Depression",
       "Hemiparesis"
+    ],
+    "Potassium deficiency": [
+      "Potassium Supplements"
+    ],
+    "Muscular dystrophy": [
+      "Physiotherapy",
+      "Corticosteroids"
+    ],
+    "Chronic muscle cramp": [
+      "Asprin",
+      "Physiotherapy"
+    ],
+    "Fibromyalgia": [
+      "Asprin",
+      "Antidepressants",
+      "Anticonvulsants"
+    ],
+    "Necrotizing Fasciitis": [
+      "Antibiotics",
+      "Amputation"
+    ],
+    "Skin Cancer": [
+      "Chemotherapy",
+      "Excisional Therapy"
+    ],
+    "Angina": [
+      "Asprin",
+      "Nitroglycerin"
     ]
   },
   "analysis_types": [

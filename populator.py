@@ -23,7 +23,6 @@ treatment_plan = inserts.insert_treatment_plan(3, 1, 5, 101, 105)
 uses = inserts.insert_uses(0, 3, 0, 3)
 logs = inserts.insert_log(3)
 
-
 print(treatment_plan)
 
 cur.execute(rooms)
