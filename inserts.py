@@ -229,20 +229,20 @@ def insert_treatment_plans(treatment_plans, employees, patients):
     two_weeks = 1209600
     treats = samples["treatments"]
 
-    string = ""
+    diag_sql = ""
     for i, diag in enumerate(treats.keys()):
-        string += "({}, '{}'),\n".format(i, diag)
-    sql += "INSERT INTO Diagnoses VALUES \n{}\n".format(finalizeSql(string))
+        diag_sql += "({}, '{}'),\n".format(i, diag)
+    sql += "INSERT INTO Diagnoses VALUES \n{}\n".format(finalizeSql(diag_sql))
 
     c = 0
-    string = ""
+    proc_sql = ""
     thing = {}
     opthing = {}
     for i, diag in enumerate(treats.keys()):
         a = []
         for e2 in treats[diag]:
             if (not (e2 in opthing)):
-                string += "({}, '{}'),\n".format(c, e2)
+                proc_sql += "({}, '{}'),\n".format(c, e2)
                 a.append(c)
                 opthing[e2] = c
                 c += 1
@@ -250,11 +250,11 @@ def insert_treatment_plans(treatment_plans, employees, patients):
                 a.append(opthing[e2])
         thing[i] = a
 
-    sql += "INSERT INTO Procedures VALUES \n{}\n".format(finalizeSql(string))
+    sql += "INSERT INTO Procedures VALUES \n{}\n".format(finalizeSql(proc_sql))
 
-    string1 = ""
-    string2 = ""
-    string3 = ""
+    tp_sql = ""
+    td_sql = ""
+    tpr_sql = ""
     for i in n:
         hos_date = radar.random_date(start=datetime.date(year=2015,
                                                          month=1,
@@ -265,19 +265,19 @@ def insert_treatment_plans(treatment_plans, employees, patients):
         timestamp = datetime.datetime.combine(hos_date,
                                               datetime.time(0, 0)).timestamp()
         dis_date = datetime.date.fromtimestamp(timestamp + two_weeks)
-        string1 += "({}, {}, {}, '{}', '{}'),\n".format(
+        tp_sql += "({}, {}, {}, '{}', '{}'),\n".format(
             treatment_plans[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
         illness = random.sample(range(len(treats)), 1)
         for e in illness:
-            string2 += "({}, {}),\n".format(treatment_plans[i], e)
-            string3 += "({}, {}),\n".format(treatment_plans[i],
+            td_sql += "({}, {}),\n".format(treatment_plans[i], e)
+            tpr_sql += "({}, {}),\n".format(treatment_plans[i],
                                             random.choice(thing[e]))
 
     sql += "INSERT INTO Treatment_plan VALUES\n{}\n".format(
-        finalizeSql(string1))
+        finalizeSql(tp_sql))
     sql += "INSERT INTO Treatment_diagnoses  VALUES\n{}\n".format(
-        finalizeSql(string2))
+        finalizeSql(td_sql))
     sql += "INSERT INTO Treatment_procedures VALUES\n{}\n".format(
-        finalizeSql(string3))
+        finalizeSql(tpr_sql))
 
     return sql
