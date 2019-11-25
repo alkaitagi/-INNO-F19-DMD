@@ -1,0 +1,32 @@
+Hypertension;Diuretics;Alpha blockers
+High Cholesterol;Strict Diet;Statins
+Blood Clot;Anticoagulants
+Angina;Asprin;Nitroglycerin
+Brain Aneurysm;Surgical Clipping
+Deep Vein Thrombosis;Clot Busters
+Arrhythmia;Pacemaker
+Heart attack;Nitroglycerin
+Stroke;Asprin;Thrombolysis
+Pulmonary Embolism;Anticoagulants;Clot Busters
+Postphlebitic Syndrome;Postphlebitic Therapy
+
+Flu;Rest
+Bronchitis;Antibiotics
+Chronic Bronchitis;Pulmonary Rehabilitation
+H1N1;Rest;Antiviral drugs
+Emphysema;Bronchodilators
+
+Chronic stress;Stress management therapy;Antidepressants
+Nervous breakdown;Psychiatrist counseling;Anxiolytics
+Dementia;Cholinsterase inhibitors
+Burnout;Extended Sick Leave;Antidepressants
+Epileptic seizures;Anticonvulsants
+Major Depression;Selective Serotonin Reuptake Inhibitors
+Hemiparesis;Neuromuscular Electrical Stimulation
+
+Potassium deficiency;Potassium Supplements
+Muscular dystrophy;Physiotherapy;Corticosteroids
+Chronic muscle cramp;Asprin;Physiotherapy
+Fibromyalgia;Asprin;Antidepressants;Anticonvulsants
+Necrotizing Fasciitis;Antibiotics;Amputation
+Skin Cancer;Chemotherapy;Excisional Therapy
