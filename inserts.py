@@ -44,7 +44,7 @@ def insert_chats(n, employees, patients):
 
     for i in range(n):
         sql += "('{}', '{}', {}, {}, '{}'),\n".format(
-            randomString(64),
+            randomString(50),
             radar.random_datetime(start=datetime.datetime(year=2015,
                                                           month=5,
                                                           day=24),
@@ -201,13 +201,13 @@ def insert_inventory(inventory_items):
 
     sql = "INSERT INTO Inventory_item (id, name, quantity, type, supplier, cost) VALUES \n"
 
-    inventory_items = samples["inventory_items"]
+    items = samples["inventory_items"]
     suppliers = samples["suppliers"]
 
     for i in inventory_items:
         sql += "({}, '{}', {}, '{}', '{}', {}),\n".format(
-            i, random.choice(inventory_items), random.randint(2, 10),
-            'medicine', random.choice(suppliers),
+            i, random.choice(items), random.randint(2, 10), 'medicine',
+            random.choice(suppliers),
             random.randint(10, 50) * 500)
 
     return finalizeSql(sql)
@@ -265,8 +265,9 @@ def insert_treatment_plans(treatment_plans, employees, patients):
         timestamp = datetime.datetime.combine(hos_date,
                                               datetime.time(0, 0)).timestamp()
         dis_date = datetime.date.fromtimestamp(timestamp + two_weeks)
-        tp_sql += "({}, {}, {}, '{}', '{}'),\n".format(
-            treatment_plans[i], doc_snn[i], pat_snn[i], dis_date, hos_date)
+        tp_sql += "({}, {}, {}, '{}', '{}'),\n".format(treatment_plans[i],
+                                                       doc_snn[i], pat_snn[i],
+                                                       dis_date, hos_date)
         illness = random.sample(range(len(treats)), 1)
         for e in illness:
             td_sql += "({}, {}),\n".format(treatment_plans[i], e)
