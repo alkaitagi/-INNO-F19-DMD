@@ -1,11 +1,14 @@
 # INNO-F19-DMD
+
 Innopolis University fall 2019 Data Modelling and Databases course project.
 Developed by:
+
 - [Andrey Feygelman](https://github.com/Andrey862)
 - [Ivan Abramov](https://github.com/TopIvanAbramov)
 - [Magomed Magomedov](https://github.com/alkaitagi)
 
 ## Annotation
+
 Our system is designed for full data management of a hospital with special focus on its
 inpatient (ward) department. The system has several subsystems, each of which designated for
 its real-word counterpart.
@@ -37,6 +40,7 @@ composing them into a single bill, and accepting various payment methods, such a
 card or even payments from insurance company
 
 Risk description:
+
 - Critical (C) It will break the main functionality of the system. The system cannot be used if this
 requirement is not implemented.
 - High (H) It will impact the main functionality of the system. Some function of the system could
@@ -46,4 +50,5 @@ can still be used with some limitations.
 - Low (L) The system can be used without limitation, but with some workarounds.
 
 ## Entity-relationship model
+
 ![Database diagram](diagram.png)
