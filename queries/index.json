@@ -14,7 +14,10 @@
   {
     "title": "Third query",
     "file": "third.sql",
-    "args": []
+    "args": [
+      "str",
+      "str"
+    ]
   },
   {
     "title": "Fourth query",
