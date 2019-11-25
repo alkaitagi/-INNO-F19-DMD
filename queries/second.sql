@@ -3,7 +3,7 @@ SELECT employee_ssn,
        Extract(month FROM date) AS Month,
        Extract(day FROM date)  AS Day,
        Extract(hour FROM date)  AS Hour, 
-       Count(DISTINCT cost)     AS "Total" 
+       Count(DISTINCT cost) AS "Total"
 FROM   attends 
 GROUP  BY employee_ssn, 
           year, 
