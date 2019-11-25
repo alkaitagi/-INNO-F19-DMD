@@ -19,21 +19,21 @@ def readValue(val):
         return list(range(val[0], val[1]))
 
 
-with open('population.json') as file:
-    data = json.load(file)
+with open('population.json') as population:
+    data = json.load(population)
 
-    json_rooms = list(range(0, 5))
-    json_beds = list(range(5, 10))
-    json_patients = list(range(101, 105))
-    json_doctors = list(range(1, 5))
-    json_nurses = list(range(5, 10))
-    json_analyzes = list(range(0, 5))
-    json_inventory_items = list(range(0, 3))
-    json_treatment_plans = list(range(0, 3))
-    json_logs = list(range(0, 3))
-    json_prescribes = 3
-    json_attends = 100
-    json_chats = 3
+    json_rooms = readValue(data["rooms"])
+    json_beds = readValue(data["beds"])
+    json_patients = readValue(data["rooms"])
+    json_doctors = readValue(data["doctors"])
+    json_nurses = readValue(data["nurses"])
+    json_analyzes = readValue(data["analyzes"])
+    json_inventory_items = readValue(data["inventory_items"])
+    json_treatment_plans = readValue(data["treatment_plans"])
+    json_logs = readValue(data["logs"])
+    json_prescribes = readValue(data["prescribes"])
+    json_attends = readValue(data["attends"])
+    json_chats = readValue(data["chats"])
 
 rooms = inserts.insert_rooms(json_rooms, json_beds)
 patients = inserts.insert_patients(json_patients, json_rooms)
