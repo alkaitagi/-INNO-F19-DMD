@@ -20,12 +20,11 @@ def loadQueries():
 
 def readArguments(args):
     dict = {}
-    argc = len(args)
 
-    if argc > 0:
-        words = input("Write {} argument(s): ".format(argc)).split(' ', argc)
-        for i in range(argc):
-            dict["arg{}".format(i)] = locate(args[i])(words[i])
+    for i, a in enumerate(args):
+        dict["arg{}".format(i)] = locate(a["type"])(input("Write {}: ".format(
+            a["name"])))
+
     return dict
 
 
@@ -36,13 +35,13 @@ queries = loadQueries()
 displayQueries(queries)
 
 while True:
-    i = int(input('\nSelect: ')) - 1
-    info = queries[i]
+    info = queries[int(input('\nSelect: ')) - 1]
+
     with open('queries/' + info["file"]) as query:
         cur.execute(query.read(), readArguments(info["args"]))
         print(from_db_cursor(cur))
 
-    print('\nExecuted')
+    print('Executed')
 
 con.commit()
 con.close()

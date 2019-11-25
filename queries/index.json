@@ -3,7 +3,10 @@
     "title": "First query",
     "file": "first.sql",
     "args": [
-      "str"
+      {
+        "name": "ssn (number)",
+        "type": "str"
+      }
     ]
   },
   {
@@ -15,21 +18,38 @@
     "title": "Third query",
     "file": "third.sql",
     "args": [
-      "str",
-      "str"
+      {
+        "name": "year (number)",
+        "type": "str"
+      },
+      {
+        "name": "month (number)",
+        "type": "str"
+      }
     ]
   },
   {
     "title": "Fourth query",
     "file": "fourth.sql",
     "args": [
-      "str",
-      "str"
+      {
+        "name": "year (number)",
+        "type": "str"
+      },
+      {
+        "name": "month (number)",
+        "type": "str"
+      }
     ]
   },
   {
     "title": "Fifth query",
     "file": "fifth.sql",
-    "args": []
+    "args": [
+      {
+        "name": "date (d-m-yyyy)",
+        "type": "str"
+      }
+    ]
   }
 ]
