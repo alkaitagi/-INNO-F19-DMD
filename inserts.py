@@ -68,12 +68,12 @@ def insert_attends(n, employees, patients):
         sql += "({}, {}, {}, '{}', '{}'),\n".format(
             random.choice(employees), random.choice(patients),
             random.randint(1000, 50000), "Attend description",
-            radar.random_date(start=datetime.datetime(year=2015,
+            radar.random_date(start=datetime.datetime(year=2010,
                                                       month=5,
                                                       day=24),
-                              stop=datetime.datetime(year=2016,
-                                                     month=5,
-                                                     day=24)))
+                              stop=datetime.datetime(year=2019,
+                                                     month=11,
+                                                     day=27)))
 
     return finalizeSql(sql)
 
