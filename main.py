@@ -1,6 +1,7 @@
 import os
 import psycopg2
 import json
+from populator import populate
 from prettytable import from_db_cursor
 from pydoc import locate
 
@@ -27,6 +28,9 @@ def readArguments(args):
 
     return dict
 
+
+for i in range(50):
+    populate()
 
 con = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
 cur = con.cursor()
