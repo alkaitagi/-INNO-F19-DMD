@@ -46,10 +46,10 @@ analysis_reports = inserts.insert_analysis_results(json_analyzes,
 attends = inserts.insert_attends(json_attends, json_doctors, json_patients)
 chats = inserts.insert_chats(json_chats, json_doctors, json_patients)
 inventory = inserts.insert_inventory(json_inventory_items)
-treatment_plans = inserts.insert_treatment_plans(json_treatment_plans,
-                                                 json_doctors, json_patients)
 uses = inserts.insert_uses(json_treatment_plans, json_inventory_items)
 logs = inserts.insert_logs(json_logs)
+treatment_plans = inserts.insert_treatment_plans(json_treatment_plans,
+                                                 json_doctors, json_patients)
 
 cur.execute(rooms)
 cur.execute(patients)

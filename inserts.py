@@ -171,7 +171,7 @@ def insert_rooms(rooms, beds):
     sql = "INSERT INTO Room (id, type, quantity_of_beds) VALUES \n"
     room_types = samples["room_types"]
 
-    for i in range(rooms):
+    for i in rooms:
         sql += "({}, '{}', {}),\n".format(i, random.choice(room_types),
                                           random.choice(beds))
 
@@ -223,8 +223,8 @@ def insert_treatment_plans(treatment_plans, employees, patients):
     sql = ""
 
     n = len(treatment_plans)
-    doc_snn = random.choices(employees, n)
-    pat_snn = random.choices(patients, n)
+    doc_snn = random.choices(employees, k=n)
+    pat_snn = random.choices(patients, k=n)
 
     two_weeks = 1209600
     treats = samples["treatments"]
@@ -255,7 +255,7 @@ def insert_treatment_plans(treatment_plans, employees, patients):
     tp_sql = ""
     td_sql = ""
     tpr_sql = ""
-    for i in n:
+    for i in range(n):
         hos_date = radar.random_date(start=datetime.date(year=2015,
                                                          month=1,
                                                          day=1),
