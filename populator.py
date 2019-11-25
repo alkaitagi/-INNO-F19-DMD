@@ -3,7 +3,6 @@ import psycopg2
 import inserts
 import json
 
-
 def readValue(val):
     if len(val) == 1:
         return val[0]
@@ -80,3 +79,4 @@ def populate():
 
     conn.commit()
     conn.close()
+    
