@@ -115,7 +115,8 @@ def insert_employee(pat_ssn1, pat_ssn2, type):
 
 
 def insert_patient(pat_ssn1, pat_ssn2, room_id1, room_id2):
-    # i:j - available ssn's m:n - available room_id's
+    # i:j - available ssn's
+    # m:n - available room_id's
 
     inserts = "INSERT INTO Patient (ssn, name, surname, gender, weight, birth_date, height, blood_type, phone, country, city, street, building, room_id) VALUES \n"
     for k in range(pat_ssn1, pat_ssn2):
@@ -136,14 +137,16 @@ def insert_patient(pat_ssn1, pat_ssn2, room_id1, room_id2):
     return inserts
 
 
-def insert_room(room_id1, room_id2):
-    inserts = "INSERT INTO Room (id, type, quantity_of_beds) VALUES \n"
-    for k in range(room_id1, room_id2):
-        inserts += "({}, '{}', {}),\n".format(
-            k, random.choice(samples["room_types"]), random.randint(2, 10))
+def insert_rooms(rooms, beds):
+    # rooms - number of rooms to insert
+    # beds - range of possible beds per room
 
-    inserts = inserts[:-2] + ';\n'
-    return inserts
+    sql = "INSERT INTO Room (id, type, quantity_of_beds) VALUES \n"
+
+    for i, room in enumerate(random.choices(samples["room_types"], k=rooms)):
+        sql += "({}, '{}', {}),\n".format(i, room, random.choice(beds))
+
+    return sql[:-2] + ';\n'
 
 
 def insert_log(i):
