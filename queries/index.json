@@ -3,7 +3,7 @@
     "title": "First query",
     "file": "first.sql",
     "args": [
-      "int"
+      "str"
     ]
   },
   {

@@ -7,13 +7,13 @@ from
     employee
 where
     attends.employee_ssn = ssn
-    and attends.patient_ssn = %(arg0)d
+    and attends.patient_ssn = %(arg0)s
     and (
         (
-            employee.name LIKE 'K%'
-            or employee.name LIKE 'C%'
+            employee.name LIKE 'K%%'
+            or employee.name LIKE 'C%%'
         ) <> (
-            employee.surname LIKE 'L%'
-            or employee.surname LIKE 'M%'
+            employee.surname LIKE 'L%%'
+            or employee.surname LIKE 'M%%'
         )
     )

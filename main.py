@@ -39,6 +39,8 @@ while True:
     i = int(input('\nSelect: ')) - 1
     info = queries[i]
     with open('queries/' + info["file"]) as query:
+        #print(query.read())
+        #print(readArguments(info["args"]))
         cur.execute(query.read(), readArguments(info["args"]))
         print(from_db_cursor(cur))
 
