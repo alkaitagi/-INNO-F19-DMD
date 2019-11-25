@@ -1,9 +1,9 @@
 # INNO-F19-DMD
 Innopolis University fall 2019 Data Modelling and Databases course project.
 Developed by:
-- [Andrey Feygelman](github.com/Andrey862)
-- [Ivan Abramov](github.com/TopIvanAbramov)
-- [Magomed Magomedov](github.com/alkaitagi)
+- [Andrey Feygelman](https://github.com/Andrey862)
+- [Ivan Abramov](https://github.com/TopIvanAbramov)
+- [Magomed Magomedov](https://github.com/alkaitagi)
 
 ## Annotation
 Our system is designed for full data management of a hospital with special focus on its
