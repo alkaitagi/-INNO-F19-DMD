@@ -169,7 +169,7 @@ def insert_inventory(i):
     inserts = "INSERT INTO Inventory_item (id, name, quantity, type, supplier, cost) VALUES \n"
     for k in range(i):
         inserts += "({}, '{}', {}, '{}', '{}', {}),\n".format(
-            k, random.choice(samples["inventories"]), random.randint(2, 10),
+            k, random.choice(samples["inventory_items"]), random.randint(2, 10),
             'medicine', random.choice(samples["suppliers"]),
             random.randint(10, 50) * 500)
 
