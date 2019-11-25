@@ -11,8 +11,8 @@ with open('tables.sql') as tables:
     cur.execute(tables.read())
 
 rooms = inserts.insert_rooms(5, range(5, 10))
-
 patients = inserts.insert_patient(101, 105, 1, 5)
+
 doctors = inserts.insert_employee(1, 5, "doctor")
 nurses = inserts.insert_employee(5, 10, "nurse")
 prescribe = inserts.insert_prescribe(3, 1, 5, 101, 105)
