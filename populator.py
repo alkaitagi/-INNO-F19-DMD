@@ -3,11 +3,13 @@ import psycopg2
 import inserts
 import json
 
+
 def readValue(val):
     if len(val) == 1:
         return val[0]
     else:
         return list(range(val[0], val[1]))
+
 
 def populate():
     conn = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
@@ -23,7 +25,7 @@ def populate():
 
         json_rooms = readValue(data["rooms"])
         json_beds = readValue(data["beds"])
-        json_patients = readValue(data["rooms"])
+        json_patients = readValue(data["patients"])
         json_doctors = readValue(data["doctors"])
         json_nurses = readValue(data["nurses"])
         json_analyzes = readValue(data["analyzes"])
@@ -39,16 +41,16 @@ def populate():
     doctors = inserts.insert_employees(json_doctors, "doctor")
     nurses = inserts.insert_employees(json_nurses, "nurse")
     prescribes = inserts.insert_prescribes(json_prescribes, json_doctors,
-                                        json_patients)
+                                           json_patients)
     analysis_reports = inserts.insert_analysis_results(json_analyzes,
-                                                    json_patients)
+                                                       json_patients)
     attends = inserts.insert_attends(json_attends, json_doctors, json_patients)
     chats = inserts.insert_chats(json_chats, json_doctors, json_patients)
     inventory = inserts.insert_inventory(json_inventory_items)
     uses = inserts.insert_uses(json_treatment_plans, json_inventory_items)
     logs = inserts.insert_logs(json_logs)
     treatment_plans = inserts.insert_treatment_plans(json_treatment_plans,
-                                                    json_doctors, json_patients)
+                                                     json_doctors, json_patients)
 
     cur.execute(rooms)
     cur.execute(patients)
@@ -63,20 +65,21 @@ def populate():
     cur.execute(uses)
     cur.execute(logs)
 
-    print(rooms,
-        patients,
-        doctors,
-        nurses,
-        prescribes,
-        analysis_reports,
-        attends,
-        chats,
-        inventory,
-        treatment_plans,
-        uses,
-        logs,
-        sep="\n")
-
     conn.commit()
     conn.close()
-    
+"""
+    print(rooms,
+          patients,
+          doctors,
+          nurses,
+          prescribes,
+          analysis_reports,
+          attends,
+          chats,
+          inventory,
+          treatment_plans,
+          uses,
+          logs,
+          sep="\n")
+          """
+
