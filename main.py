@@ -28,10 +28,6 @@ def readArguments(args):
 
     return dict
 
-
-for i in range(50):
-    populate()
-
 con = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
 cur = con.cursor()
 

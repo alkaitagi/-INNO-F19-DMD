@@ -1,33 +1,5 @@
-SELECT employee_ssn, 
-       Extract(year FROM date)  AS Year, 
-       Extract(month FROM date) AS Month,
-       Extract(day FROM date)  AS Day,
-       Extract(hour FROM date)  AS Hour, 
-       Count(DISTINCT cost) AS "Total"
-FROM   attends 
-GROUP  BY employee_ssn, 
-          year, 
-          month,
-          Day,
-          hour; 
-
-/*
-SELECT employee_ssn, 
-       year, 
-       month, 
-       hour, 
-       TRUNC(Avg(appointments), 2) AS average
-FROM   (SELECT employee_ssn, 
-               Extract(year FROM date)  AS Year, 
-               Extract(month FROM date) AS Month, 
-               Extract(hour FROM date)  AS Hour, 
-               Count(DISTINCT cost)     AS appointments 
-        FROM   attends 
-        GROUP  BY employee_ssn, 
-                  year, 
-                  month, 
-                  hour) Z 
-GROUP  BY employee_ssn, 
-          year, 
-          month, 
-          hour */
+select  employee_ssn, extract(dow from date) as Day, (extract(hour from date)) as Hour, COUNT(*) as Attends
+from attends
+where (extract(year from date) BETWEEN 2015 and 2016)
+GROUP BY employee_ssn,  Day, Hour
+ORDER BY employee_ssn, Day, Hour
