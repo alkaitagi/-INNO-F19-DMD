@@ -28,11 +28,13 @@ def readArguments(args):
 
     return dict
 
+
 con = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
 cur = con.cursor()
 
 queries = loadQueries()
 displayQueries(queries)
+populate()
 
 while True:
     info = queries[int(input('\nSelect: ')) - 1]

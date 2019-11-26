@@ -137,7 +137,7 @@ def insert_employees(employees, type):
 
 
 def insert_patients(patients, rooms):
-    # patiens - range of patient ssns to insert
+    # patiens - range of patient ssn's to insert
     # rooms - range of available room ids
 
     sql = "INSERT INTO Patient (ssn, name, surname, gender, weight, birth_date, height, blood_type, phone, country, city, street, building, room_id) VALUES \n"
@@ -146,9 +146,11 @@ def insert_patients(patients, rooms):
     surnames = samples["surnames"]
     genders = samples["genders"]
     blood_types = samples["blood_types"]
-    contries = samples["countries"]
+    countries = samples["countries"]
     cities = samples["cities"]
     streets = samples["streets"]
+
+    print(patients)
 
     for i in patients:
         sql += "({}, '{}', '{}', '{}', {}, '{}', {}, '{}', '+{}', '{}', '{}', '{}', {}, {}),\n".format(
@@ -157,7 +159,7 @@ def insert_patients(patients, rooms):
             radar.random_date(start=datetime.date(year=1960, month=5, day=24),
                               stop=datetime.date(year=2013, month=5, day=24)),
             random.randint(80, 220), random.choice(blood_types),
-            random.randint(10**11, 10**12 - 1), random.choice(contries),
+            random.randint(10**11, 10**12 - 1), random.choice(countries),
             random.choice(cities), random.choice(streets),
             random.randint(1, 10), random.choice(rooms))
 

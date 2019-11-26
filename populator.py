@@ -25,7 +25,7 @@ def populate():
 
         json_rooms = readValue(data["rooms"])
         json_beds = readValue(data["beds"])
-        json_patients = readValue(data["rooms"])
+        json_patients = readValue(data["patients"])
         json_doctors = readValue(data["doctors"])
         json_nurses = readValue(data["nurses"])
         json_analyzes = readValue(data["analyzes"])
@@ -65,6 +65,9 @@ def populate():
     cur.execute(uses)
     cur.execute(logs)
 
+    conn.commit()
+    conn.close()
+"""
     print(rooms,
           patients,
           doctors,
@@ -78,9 +81,5 @@ def populate():
           uses,
           logs,
           sep="\n")
+          """
 
-    conn.commit()
-    conn.close()
-
-
-#populate()
