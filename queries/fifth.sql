@@ -2,27 +2,37 @@ select ssn as employee_ssn
 from employee
 EXCEPT
 (
-(SELECT ssn
-FROM  attends, employee
-WHERE attends.employee_ssn=ssn and date > %(arg0)s
-GROUP  BY ssn
+(
+select ssn as employee_ssn
+from employee
+EXCEPT
+SELECT employee_ssn
+FROM  attends
+WHERE date > %(arg0)s)
+
+UNION
+
+(SELECT employee_ssn
+FROM  attends
+WHERE date > %(arg0)s
+GROUP  BY employee_ssn
 HAVING
 COUNT(DISTINCT Extract(year FROM date))<>10)
 
 UNION
 
-(SELECT ssn as employee_ssn
-FROM   attends, employee
-WHERE attends.employee_ssn=ssn and date > %(arg0)s
-GROUP  BY ssn,
+(SELECT employee_ssn
+FROM   attends
+WHERE date > %(arg0)s
+GROUP BY employee_ssn,
           Extract(year FROM date)
 HAVING Count(*) < 5)
 
 UNION
 
-(SELECT ssn as employee_ssn
-FROM   attends, employee
-WHERE attends.employee_ssn=ssn and date > '1-1-2010'
-GROUP  BY ssn
+(SELECT employee_ssn
+FROM   attends
+WHERE date > %(arg0)s
+GROUP BY employee_ssn
 HAVING COUNT(DISTINCT patient_ssn)<100)
 )
