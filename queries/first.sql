@@ -4,9 +4,10 @@ SELECT
     employee.ssn
 from
     attends,
-    employee
+    employee,
+    patient
 where
-    attends.employee_ssn = ssn
+    attends.employee_ssn = employee.ssn
     and attends.patient_ssn = %(arg0)s
     and (
         (
@@ -15,5 +16,6 @@ where
         ) <> (
             employee.surname LIKE 'M%%'
             or employee.surname LIKE 'L%%'
-        )
+        ) and patient.ssn = attends.patient_ssn
+        and patient.gender = 'female'
     )

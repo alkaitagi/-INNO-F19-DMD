@@ -150,8 +150,6 @@ def insert_patients(patients, rooms):
     cities = samples["cities"]
     streets = samples["streets"]
 
-    print(patients)
-
     for i in patients:
         sql += "({}, '{}', '{}', '{}', {}, '{}', {}, '{}', '+{}', '{}', '{}', '{}', {}, {}),\n".format(
             i, random.choice(names), random.choice(surnames),
