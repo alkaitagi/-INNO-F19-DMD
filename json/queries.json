@@ -6,6 +6,10 @@
       {
         "name": "ssn (number)",
         "type": "str"
+      },
+      {
+        "name": "year",
+        "type": "str"
       }
     ]
   },
@@ -52,7 +56,7 @@
     "file": "fifth.sql",
     "args": [
       {
-        "name": "date (d-m-yyyy)",
+        "name": "year",
         "type": "str"
       }
     ]

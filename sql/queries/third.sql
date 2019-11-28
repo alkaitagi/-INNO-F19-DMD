@@ -5,7 +5,7 @@ FROM patient,
 
   (SELECT ssn AS patient_ssn
    FROM patient
-   EXCEPT ((
+   EXCEPT (
               (SELECT ssn AS patient_ssn
                FROM patient
                EXCEPT SELECT patient_ssn
@@ -37,5 +37,5 @@ FROM patient,
                              FROM date) = %(arg1)s GROUP  BY ssn,
                                                              Extract(WEEK
                                                                      FROM date)
-               HAVING Count(*) < 2)))) AS T
+               HAVING Count(*) < 2))) AS T
 WHERE patient_ssn = patient.ssn
