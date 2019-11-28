@@ -17,5 +17,6 @@ where
             employee.surname LIKE 'M%%'
             or employee.surname LIKE 'L%%'
         ) and patient.ssn = attends.patient_ssn
-        and patient.gender = 'female'
+        and patient.gender = 'female' and
+        employee.type = 'doctor'
     )
