@@ -21,9 +21,6 @@ def writeSql(*queries):
 
 
 def populate():
-    con = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
-    cur = con.cursor()
-
     with open('json/population.json') as population:
         data = json.load(population)
 
@@ -56,6 +53,9 @@ def populate():
     treatment_plans = inserts.insert_treatment_plans(json_treatment_plans,
                                                      json_doctors,
                                                      json_patients)
+
+    con = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
+    cur = con.cursor()
 
     cur.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
     with open('sql/tables.sql') as tables:

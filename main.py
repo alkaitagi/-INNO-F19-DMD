@@ -44,6 +44,3 @@ while True:
         print(from_db_cursor(cur))
 
     print('Executed')
-
-con.commit()
-con.close()
