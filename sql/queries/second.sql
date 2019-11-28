@@ -1,4 +1,4 @@
-select  employee_ssn, extract(dow from date) as Day, (extract(hour from date)) as Hour, COUNT(*) as Attends
+select  employee_ssn, extract(dow from date) as Day, (extract(hour from date)) as Hour, COUNT(*) as Total, TRUNC(COUNT(*)/52.0,5) as Average
 from attends
 where (extract(year from date) BETWEEN 2015 and 2016)
 GROUP BY employee_ssn,  Day, Hour
