@@ -12,7 +12,12 @@
   {
     "title": "Second query",
     "file": "second.sql",
-    "args": []
+    "args": [
+      {
+        "name" : "year",
+        "type" : "str"
+      }
+    ]
   },
   {
     "title": "Third query",
