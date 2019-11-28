@@ -7,6 +7,8 @@ Developed by:
 - [Ivan Abramov](https://github.com/TopIvanAbramov)
 - [Magomed Magomedov](https://github.com/alkaitagi)
 
+**[Complete report.](misc/report.pdf)**
+
 ## Annotation
 
 Our system is designed for full data management of a hospital with special focus on its
