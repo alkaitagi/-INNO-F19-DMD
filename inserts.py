@@ -234,21 +234,21 @@ def insert_treatment_plans(treatment_plans, employees, patients):
         diag_sql += "({}, '{}'),\n".format(i, diag)
     sql += "INSERT INTO Diagnoses VALUES \n{}\n".format(finalizeSql(diag_sql))
 
-    c = 0
+    counter = 0
     proc_sql = ""
-    thing = {}
-    opthing = {}
+    dict = {}
+    revdict = {}
     for i, diag in enumerate(treats.keys()):
         a = []
         for e2 in treats[diag]:
-            if (not (e2 in opthing)):
-                proc_sql += "({}, '{}'),\n".format(c, e2)
-                a.append(c)
-                opthing[e2] = c
-                c += 1
+            if (not (e2 in revdict)):
+                proc_sql += "({}, '{}'),\n".format(counter, e2)
+                a.append(counter)
+                revdict[e2] = counter
+                counter += 1
             else:
-                a.append(opthing[e2])
-        thing[i] = a
+                a.append(revdict[e2])
+        dict[i] = a
 
     sql += "INSERT INTO Procedures VALUES \n{}\n".format(finalizeSql(proc_sql))
 
@@ -272,7 +272,7 @@ def insert_treatment_plans(treatment_plans, employees, patients):
         for e in illness:
             td_sql += "({}, {}),\n".format(treatment_plans[i], e)
             tpr_sql += "({}, {}),\n".format(treatment_plans[i],
-                                            random.choice(thing[e]))
+                                            random.choice(dict[e]))
 
     sql += "INSERT INTO Treatment_plan VALUES\n{}\n".format(
         finalizeSql(tp_sql))
