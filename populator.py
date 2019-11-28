@@ -11,14 +11,23 @@ def readValue(val):
         return list(range(val[0], val[1]))
 
 
-def populate():
-    conn = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
+def writeSql(*queries):
+    sql = '\n'.join(list(queries))
 
-    cur = conn.cursor()
+    with open("population.sql", "w") as file:
+        file.write(sql)
+
+    return sql
+
+
+def populate():
+    con = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
+
+    cur = con.cursor()
     cur.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
 
     with open('tables.sql') as tables:
-        cur.execute(tables.read())
+       cur.execute(tables.read())
 
     with open('population.json') as population:
         data = json.load(population)
@@ -50,36 +59,13 @@ def populate():
     uses = inserts.insert_uses(json_treatment_plans, json_inventory_items)
     logs = inserts.insert_logs(json_logs)
     treatment_plans = inserts.insert_treatment_plans(json_treatment_plans,
-                                                     json_doctors, json_patients)
+                                                     json_doctors,
+                                                     json_patients)
 
-    cur.execute(rooms)
-    cur.execute(patients)
-    cur.execute(doctors)
-    cur.execute(nurses)
-    cur.execute(prescribes)
-    cur.execute(analysis_reports)
-    cur.execute(attends)
-    cur.execute(chats)
-    cur.execute(inventory)
-    cur.execute(treatment_plans)
-    cur.execute(uses)
-    cur.execute(logs)
+    cur.execute(
+        writeSql(rooms, patients, doctors, nurses, prescribes,
+                 analysis_reports, attends, chats, inventory, treatment_plans,
+                 uses, logs))
 
-    conn.commit()
-    conn.close()
-"""
-    print(rooms,
-          patients,
-          doctors,
-          nurses,
-          prescribes,
-          analysis_reports,
-          attends,
-          chats,
-          inventory,
-          treatment_plans,
-          uses,
-          logs,
-          sep="\n")
-          """
-
+    con.commit()
+    con.close()
