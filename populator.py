@@ -65,6 +65,10 @@ def populate():
                  analysis_reports, attends, chats, inventory, treatment_plans,
                  uses, logs))
 
+    print(rooms, patients, doctors, nurses, prescribes,
+                 analysis_reports, attends, chats, inventory, treatment_plans,
+                 uses, logs)
+
     con.commit()
     con.close()
     print("Database created and  random data generated")
