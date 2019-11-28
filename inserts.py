@@ -214,8 +214,6 @@ def insert_inventory(inventory_items):
 
 
 def insert_treatment_plans(treatment_plans, employees, patients):
-    # God help the one who will try to read this function
-
     # treatment_plans - available ids of treatment plans
     # employees - available employee ssns
     # patients - available patient ssns
