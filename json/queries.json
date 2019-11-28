@@ -8,7 +8,7 @@
         "type": "str"
       },
       {
-        "name": "year",
+        "name": "date (yyyy-mm-dd)",
         "type": "str"
       }
     ]
