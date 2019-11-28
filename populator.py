@@ -14,7 +14,7 @@ def readValue(val):
 def writeSql(*queries):
     sql = '\n'.join(list(queries))
 
-    with open("sql/population.sql", "w") as file:
+    with open("sql/population.sql", "w+") as file:
         file.write(sql)
 
     return sql

@@ -15,7 +15,7 @@ def displayQueries(queries):
 
 
 def loadQueries():
-    with open('json/index.json') as file:
+    with open('json/queries.json') as file:
         return json.load(file)
 
 
