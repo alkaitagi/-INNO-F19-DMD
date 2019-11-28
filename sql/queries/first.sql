@@ -1,44 +1,24 @@
 SELECT
-    employee.name,
-    employee.surname,
-    employee.ssn,
-	MAX(date) as datee
+  DISTINCT employee.name,
+  employee.surname,
+  employee.ssn
 from
-    attends,
-    employee,
-    patient
+  attends,
+  employee,
+  patient
 where
-    attends.employee_ssn = employee.ssn
-    and attends.patient_ssn = %(arg0)s
-    and (
-        (
-            employee.name LIKE 'M%%'
-            or employee.name LIKE 'L%%'
-        ) <> (
-            employee.surname LIKE 'M%%'
-            or employee.surname LIKE 'L%%'
-        ) and patient.ssn = attends.patient_ssn
-        and patient.gender = 'female' and
-        employee.type = 'doctor'
+  attends.employee_ssn = employee.ssn
+  and attends.patient_ssn = %(arg0)s
+  and to_char(attends.date, 'yyyy-mm-dd') = %(arg1)s
+  and (
+    (
+      employee.name LIKE 'M%%'
+      or employee.name LIKE 'L%%'
+    ) <> (
+      employee.surname LIKE 'M%%'
+      or employee.surname LIKE 'L%%'
     )
-GROUP BY employee.ssn
-HAVING to_char(MAX(date), 'yyyy-mm-dd')=to_char((SELECT
-    MAX(date)
-from
-    attends,
-    employee,
-    patient
-where
-    attends.employee_ssn = employee.ssn
-    and attends.patient_ssn = %(arg0)s
-    and (
-        (
-            employee.name LIKE 'M%%'
-            or employee.name LIKE 'L%%'
-        ) <> (
-            employee.surname LIKE 'M%%'
-            or employee.surname LIKE 'L%%'
-        ) and patient.ssn = attends.patient_ssn
-        and patient.gender = 'female' and
-        employee.type = 'doctor'
-    )), 'yyyy-mm-dd')
+    and patient.ssn = attends.patient_ssn
+    and patient.gender = 'female'
+    and employee.type = 'doctor'
+  )

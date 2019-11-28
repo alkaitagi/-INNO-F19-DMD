@@ -34,7 +34,7 @@ cur = con.cursor()
 
 queries = loadQueries()
 displayQueries(queries)
-# populate()
+#populate()
 
 while True:
     info = queries[int(input('\nSelect: ')) - 1]

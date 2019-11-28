@@ -67,3 +67,5 @@ def populate():
 
     con.commit()
     con.close()
+    print("Database created and  random data generated")
+
