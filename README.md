@@ -51,4 +51,4 @@ can still be used with some limitations.
 
 ## Entity-relationship model
 
-![Database diagram](diagram.png)
+![Database diagram](misc/diagram.png)

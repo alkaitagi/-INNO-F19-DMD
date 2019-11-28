@@ -14,7 +14,7 @@ def readValue(val):
 def writeSql(*queries):
     sql = '\n'.join(list(queries))
 
-    with open("population.sql", "w") as file:
+    with open("sql/population.sql", "w") as file:
         file.write(sql)
 
     return sql
@@ -22,14 +22,9 @@ def writeSql(*queries):
 
 def populate():
     con = psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
-
     cur = con.cursor()
-    cur.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
 
-    with open('tables.sql') as tables:
-       cur.execute(tables.read())
-
-    with open('population.json') as population:
+    with open('json/population.json') as population:
         data = json.load(population)
 
         json_rooms = readValue(data["rooms"])
@@ -62,6 +57,9 @@ def populate():
                                                      json_doctors,
                                                      json_patients)
 
+    cur.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
+    with open('sql/tables.sql') as tables:
+        cur.execute(tables.read())
     cur.execute(
         writeSql(rooms, patients, doctors, nurses, prescribes,
                  analysis_reports, attends, chats, inventory, treatment_plans,

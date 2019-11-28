@@ -15,7 +15,7 @@ def displayQueries(queries):
 
 
 def loadQueries():
-    with open('queries/index.json') as file:
+    with open('json/index.json') as file:
         return json.load(file)
 
 
@@ -39,7 +39,7 @@ displayQueries(queries)
 while True:
     info = queries[int(input('\nSelect: ')) - 1]
 
-    with open('queries/' + info["file"]) as query:
+    with open('sql/queries/' + info["file"]) as query:
         cur.execute(query.read(), readArguments(info["args"]))
         print(from_db_cursor(cur))
 

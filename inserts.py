@@ -4,7 +4,7 @@ import radar
 import string
 import json
 
-with open('samples.json') as file:
+with open('json/samples.json') as file:
     samples = json.load(file)
 
 
